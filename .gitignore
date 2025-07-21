@@ -1,0 +1,17 @@
+# Virtual Environment
+venv/
+
+# Django cache
+__pycache__/
+*.pyc
+
+# Database file
+db.sqlite3
+*.sqlite3
+
+# File sensitif (jika ada nanti)
+.env
+env/
+
+# File media yang diupload pengguna
+media/

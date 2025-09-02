@@ -9,6 +9,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),  # gunakan nama app kamu di sini
     path('layanan/', include('layanan.urls')),  # gunakan nama app kamu di sini
+    path('accounts/', include('accounts.urls')),  # gunakan nama app kamu di sini
+    path('dashboards/', include('dashboard.urls')),  # gunakan nama app kamu di sini
     path('ckeditor/', include('ckeditor_uploader.urls'))
 ]
 

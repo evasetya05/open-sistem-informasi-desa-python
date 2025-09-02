@@ -4,7 +4,6 @@ from .models import Antrian
 class DaftarAntrianForm(forms.ModelForm):
     class Meta:
         model = Antrian
-        fields = ['nama']
-
+        fields = ['nik', 'nama', 'rt', 'rw']
 
 

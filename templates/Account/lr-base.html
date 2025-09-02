@@ -1,0 +1,28 @@
+{% extends 'partials/base.html' %}
+{% block nav_menu_item_block %}
+
+{% endblock %}
+{% block body_block %}
+{#{% if messages %}#}
+{#    <ul>#}
+{#    {% for m in messages %}#}
+{#        <li>{{ m }}</li>#}
+{#    {% endfor %}#}
+{#    </ul>#}
+{#{% endif %}#}
+    <div style="display: flex; flex-direction: column; justify-content: center; height: auto; min-height: 100vh;
+     padding: 10px;">
+    <div class="card" style="width: 300px; padding: 10px; align-self: center; align-items: center;">
+    <h4>
+        {% block lr_title %}
+        {% endblock %}
+    </h4>
+    {% block lr_form %}
+
+    {% endblock %}
+    {% block lr_help %}
+    {% endblock %}
+    </div>
+    </div>
+
+{% endblock %}

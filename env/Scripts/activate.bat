@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\berbagi-10-mobile\app\web\sistem-informasi-desa\env
+set VIRTUAL_ENV=D:\berbagi surface\app\python\django\2.sistem-informasi-desa\env
 
 if not defined PROMPT set PROMPT=$P$G
 

@@ -1,0 +1,70 @@
+{% extends 'Dashboard/base-dashboard.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Daftar Interview</h1>
+
+    {% for pelamar, interview_list in grouped_interviews.items %}
+    <div class="card mb-4">
+        <div class="card-body">
+            <h2 class="candidate-header">Nama Kandidat: {{ pelamar.name }}</h2>
+            <p><strong>Total Rating:</strong> <span class="total-rating" data-pelamar="{{ pelamar.id }}">0</span></p>
+            <p><strong>Email:</strong> {{ pelamar.email }}</p>
+            <p><strong>Telephone:</strong> {{ pelamar.phone }}</p>
+            <p><strong>Pendidikan:</strong> {{ pelamar.education }}</p>
+            <p><strong>Umur:</strong> {{ pelamar.umur }}</p>
+            <p><strong>Riwayat Kerja 1:</strong> {{ pelamar.riwayat_kerja1 }}</p>
+            <p><strong>Riwayat Kerja 2:</strong> {{ pelamar.riwayat_kerja2 }}</p>
+            <p><strong>User Interviewer:</strong> {{ pelamar.user }}</p>
+
+            <div class="table-responsive">
+                <table class="table table-bordered mt-2">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Kategori</th>
+                            <th>Skill / Attribute</th>
+                            <th>Pertanyaan Wawancara</th>
+                            <th>Rating</th>
+                            <th>Komentar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for interview in interview_list %}
+                        <tr>
+                            <td>{{ interview.category }}</td>
+                            <td>{{ interview.keterampilan }}</td>
+                            <td>{{ interview.pertanyaan_wawancara }}</td>
+                            <td class="rating" data-pelamar="{{ pelamar.id }}">{{ interview.rating }}</td>
+                            <td>{{ interview.komentar }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- JavaScript for Computing Total Ratings -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const ratings = document.querySelectorAll(".rating");
+        const totalRatings = {};
+
+        // Calculate total ratings per candidate
+        ratings.forEach(rating => {
+            const pelamarId = rating.getAttribute("data-pelamar");
+            const value = parseInt(rating.textContent) || 0;
+
+            totalRatings[pelamarId] = (totalRatings[pelamarId] || 0) + value;
+        });
+
+        // Update total rating in the HTML
+        document.querySelectorAll(".total-rating").forEach(totalSpan => {
+            const pelamarId = totalSpan.getAttribute("data-pelamar");
+            totalSpan.textContent = totalRatings[pelamarId] || 0;
+        });
+    });
+</script>
+{% endblock content %}

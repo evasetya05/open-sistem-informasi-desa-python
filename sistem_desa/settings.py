@@ -33,11 +33,11 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 
     #aplikasi yg di buat
-    'users',
     'home',
     'kependudukan',
     'layanan',
     'profil_desa',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -151,6 +151,8 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # <--- Tambahkan baris ini
 
 CKEDITOR_UPLOAD_PATH = 'uploads/'
 MEDIA_URL = '/media/'

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDM Portabel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'index' %}">SDM Portabel</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h3 class="mb-4">Applicant Details</h3>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" id="name" name="name" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="education" class="form-label">Education</label>
+                <input type="text" id="education" name="education" class="form-control">
+                <small class="form-text text-muted">Contoh: Sarjana Teknik Mesin .</small>
+            </div>
+            <div class="mb-3">
+                <label for="umur" class="form-label">Age / Umur</label>
+                <input type="number" id="umur" name="umur" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="riwayat_kerja1" class="form-label">Work Experience 1</label>
+                <input type="text" id="riwayat_kerja1" name="riwayat_kerja1" class="form-control">
+                <small class="form-text text-muted">Contoh: Saya bekerja sebagai Software Engineer dengan job desc mengembangkan aplikasi web dari tahun 2020 ke 2023.</small>
+            </div>
+            
+            <div class="mb-3">
+                <label for="riwayat_kerja2" class="form-label">Work Experience 2</label>
+                <input type="text" id="riwayat_kerja2" name="riwayat_kerja2" class="form-control">
+                <small class="form-text text-muted">Contoh: Saya bekerja sebagai Data Analyst dengan job desc menganalisis data perusahaan dari tahun 2018 ke 2020.</small>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Submit</button>
+            {% if error_message %}
+                <div class="text-danger mt-2">{{ error_message }}</div>
+            {% endif %}
+        </form>
+        
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

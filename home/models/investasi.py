@@ -1,11 +1,11 @@
 from django.db import models
-from ckeditor_uploader.fields import RichTextUploadingField
 from django.utils.text import slugify
+from ckeditor_uploader.fields import RichTextUploadingField  # Import CKEditor
 
 class PostingInvestasi(models.Model):
     judul = models.CharField(max_length=255)
-    slug = models.SlugField(unique=True, blank=True)  # Tambahkan field slug
-    isi = RichTextUploadingField()
+    slug = models.SlugField(unique=True, blank=True)
+    isi = RichTextUploadingField(blank=True, null=True)  # Ganti TextField → CKEditor
     gambar = models.ImageField(upload_to='berita_gambar/', blank=True, null=True)
     tanggal_terbit = models.DateField(auto_now_add=True)
 
@@ -16,4 +16,3 @@ class PostingInvestasi(models.Model):
         if not self.slug:
             self.slug = slugify(self.judul)
         super().save(*args, **kwargs)
-

@@ -1,0 +1,47 @@
+{% extends 'Dashboard/base-dashboard.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-dark">Personality Test Results</h1>
+
+    {% for result in applicant_results %}
+        <div class="card shadow-sm p-4 mt-4">
+            <h2 class="text-primary">Applicant: {{ result.applicant_name }}</h2>
+
+            {% if result.responses %}
+                <p><span class="fw-bold text-muted">Openness Average:</span> {{ result.responses.0.openness_avg }}</p>
+                <p><span class="fw-bold text-muted">Conscientiousness Average:</span> {{ result.responses.0.conscientiousness_avg }}</p>
+                <p><span class="fw-bold text-muted">Extraversion Average:</span> {{ result.responses.0.extraversion_avg }}</p>
+                <p><span class="fw-bold text-muted">Agreeableness Average:</span> {{ result.responses.0.agreeableness_avg }}</p>
+                <p><span class="fw-bold text-muted">Neuroticism Average:</span> {{ result.responses.0.neuroticism_avg }}</p>
+
+                <h3 class="mt-4">Responses:</h3>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Question</th>
+                                <th>Selected Option</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for response in result.responses %}
+                                <tr>
+                                    <td>{{ response.question }}</td>
+                                    <td>{{ response.selected_option }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-muted">No responses available.</p>
+            {% endif %}
+        </div>
+    {% empty %}
+        <div class="alert alert-warning mt-4" role="alert">
+            No test results available.
+        </div>
+    {% endfor %}
+</div>
+{% endblock content %}

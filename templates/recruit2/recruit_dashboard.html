@@ -1,0 +1,153 @@
+{% extends 'Dashboard/base-dashboard.html' %}
+
+{% block title_block %}
+    Team Lead Dashboard
+{% endblock title_block %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="main-content">
+        <h1>Rekrutmen dan Seleksi</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Big 5 Personality Test</th>
+                    <th>DOPE Test</th>
+                    <th>Matrix Interview</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for applicant in sorted_averages %}
+                <tr>
+                    <td>{{ applicant.applicant_name }}</td>
+                    
+                    <td>
+                        <strong>Openness:</strong> {{ applicant.openness|default:"N/A" }}<br>
+                        <strong>Conscientiousness:</strong> {{ applicant.conscientiousness|default:"N/A" }}<br>
+                        <strong>Extraversion:</strong> {{ applicant.extraversion|default:"N/A" }}<br>
+                        <strong>Agreeableness:</strong> {{ applicant.agreeableness|default:"N/A" }}<br>
+                        <strong>Neuroticism:</strong> {{ applicant.neuroticism|default:"N/A" }}
+                    </td>
+
+                    <td><strong>{{ applicant.dope_personality|default:"N/A" }}</strong></td>
+
+                    <td>
+                        <strong>Total Rating:</strong> 
+                        {% if applicant.total_rating is not None %}
+                            {{ applicant.total_rating }}
+                        {% else %}
+                            Not Available
+                        {% endif %}
+                    </td>
+
+                    <!-- Status Selection Form -->
+                    <td>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="applicant_id" value="{{ applicant.applicant_id }}">
+                            
+                            <select name="status">
+                                <option value="dipertimbangkan" {% if applicant.status == "dipertimbangkan" %}selected{% endif %}>Dipertimbangkan</option>
+                                <option value="lulus" {% if applicant.status == "lulus" %}selected{% endif %}>Lulus</option>
+                                <option value="tidak_lulus" {% if applicant.status == "tidak_lulus" %}selected{% endif %}>Tidak Lulus</option>
+                            </select>
+                            
+                            <button type="submit">Save</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<style>
+    .dashboard-container {
+        display: flex;
+    }
+    .main-content {
+        margin-left: 130px;
+        padding: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+
+<!-- Floating Feedback Button -->
+<div class="floating-button feedback-button" onclick="openGoogleForm()">
+    💬 Berikan Saran
+</div>
+
+<!-- Floating WhatsApp Button -->
+<div class="floating-button whatsapp-button" onclick="openWhatsAppChat()">
+    📲 Konsultasikan Hasil
+</div>
+
+<script>
+    // Function to open Google Form
+    function openGoogleForm() {
+        const googleFormLink = "https://forms.gle/FZEV12oD3j6a298T9"; // Replace with your actual form link
+        window.open(googleFormLink, '_blank');
+    }
+
+    // Function to open WhatsApp chat
+    function openWhatsAppChat() {
+        const phoneNumber = "+6285348178999";
+        const message = encodeURIComponent("Halo, saya ingin konsultasi mengenai hasil tes.");
+        const whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
+        window.open(whatsappURL, '_blank');
+    }
+</script>
+
+<style>
+    /* General Floating Button Styles */
+    .floating-button {
+        position: fixed;
+        bottom: 15px;
+        right: 15px;
+        background-color: #ff9800; /* Orange */
+        color: white;
+        padding: 12px 20px;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 20px;
+        cursor: pointer;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease, background-color 0.3s ease;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .floating-button:hover {
+        transform: scale(1.05);
+        background-color: #e68900; /* Darker orange */
+    }
+
+    /* Adjust positions for multiple buttons */
+    .whatsapp-button {
+        bottom: 70px; /* Position above feedback button */
+        background-color: #25D366; /* WhatsApp green */
+    }
+
+    .whatsapp-button:hover {
+        background-color: #1ebe57;
+    }
+</style>
+
+
+{% endblock content %}

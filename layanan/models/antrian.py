@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.urls import reverse
 
 # Pilihan angka 1–15 sebagai string (untuk CharField)
-RT_RW_CHOICES = [(str(i), f"{i:02}") for i in range(1, 16)]
+RT_RW_CHOICES = [(str(i), f"{i:02}") for i in range(1, 51)]
 
 class AntrianSession(models.Model):
     tanggal = models.DateField(default=timezone.now)

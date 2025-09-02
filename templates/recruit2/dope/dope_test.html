@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDM Portabel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'index' %}">SDM Portabel</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h3 class="mb-3">Tes Kepribadian DOPE</h3>
+        <p class="mb-4">Silakan pilih jawaban yang paling sesuai dengan kecenderunganmu. Jika sudah dipilih semua klik Kirim Jawaban</p>
+
+        <form method="POST" id="dopeTestForm">
+            {% csrf_token %}
+            <div class="list-group">
+                {% for dope_test in dope_tests %}
+                    <div class="list-group-item">
+                        <h5>Set Pilihan {{ forloop.counter }}</h5>
+                        <ul>
+                            {% for option in dope_test.options %}
+                                <li class="form-check">
+                                    <input class="form-check-input" type="radio" 
+                                           name="option_{{ dope_test.id }}" 
+                                           value="{{ option }}">
+                                    <label class="form-check-label">{{ option }}</label>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="text-danger error-message" id="error-{{ dope_test.id }}" style="display: none;">
+                            Pertanyaan nomor {{ forloop.counter }} belum dijawab.
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="submit" id="submitButton" class="btn btn-primary mt-3">Kirim Jawaban</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('dopeTestForm').addEventListener('submit', function(event) {
+            let allSelected = true;
+            let errorMessages = [];
+
+            // Sembunyikan semua pesan error sebelumnya
+            document.querySelectorAll('.error-message').forEach(error => {
+                error.style.display = 'none';
+            });
+
+            // Periksa apakah setiap set memiliki jawaban yang dipilih
+            document.querySelectorAll('.list-group-item').forEach((item, index) => {
+                const radioGroup = item.querySelectorAll('input[type="radio"]');
+                const groupId = radioGroup[0]?.name || null;
+
+                if (groupId) {
+                    const selectedOption = document.querySelector(`input[name="${groupId}"]:checked`);
+                    if (!selectedOption) {
+                        allSelected = false;
+                        document.getElementById(`error-${groupId.split('_')[1]}`).style.display = 'block';
+                        errorMessages.push(`Pertanyaan nomor ${index + 1} belum dijawab.`);
+                    }
+                }
+            });
+
+            if (!allSelected) {
+                event.preventDefault();
+                alert("Mohon isi semua pertanyaan:\n" + errorMessages.join('\n'));
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

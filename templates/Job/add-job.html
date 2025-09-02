@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Jobs</title>
+</head>
+<body>
+    <h2>Add Jobs</h2>
+    <form method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <button type="submit">Add Job</button>
+    </form>
+</body>
+</html>

@@ -4,6 +4,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Penting untuk HP -->
   <title>Daftar Antrian - Desa Wisata Sumberoto</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/antrian.css' %}">
@@ -13,27 +14,42 @@
 </head>
 <body>
 
-  <!-- ✅ Include Navbar -->
-  {% include 'partials/navbar.html' %}
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold text-success" href="{% url 'home' %}">
+        Halaman Utama Sumberoto
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
 
-  <div class="container mt-5" id="antrian-container">
+  <!-- Konten -->
+  <div class="container my-4 px-2" id="antrian-container">
     <div class="card shadow p-4">
-      <h2 class="mb-3 text-center">Nomor Antrian Anda</h2>
+      <h2 class="mb-3 text-center text-success">Nomor Antrian Anda</h2>
       <div class="text-center">
-        <h1 class="display-1">{{ antrian.nomor }}</h1>
+        <h1 class="display-4 fw-bold">{{ antrian.nomor }}</h1> <!-- display-4 lebih kecil dari display-1 -->
       </div>
       <hr>
-      <p><strong>NIK:</strong> {{ antrian.nik }}</p>
-      <p><strong>Nama:</strong> {{ antrian.nama }}</p>
-      <p><strong>RT:</strong> {{ antrian.rt }}</p>
-      <p><strong>RW:</strong> {{ antrian.rw }}</p>
+      <p class="mb-2"><strong>NIK:</strong> {{ antrian.nik }}</p>
+      <p class="mb-2"><strong>Nama:</strong> {{ antrian.nama }}</p>
+      <p class="mb-2"><strong>RT:</strong> {{ antrian.rt }}</p>
+      <p class="mb-2"><strong>RW:</strong> {{ antrian.rw }}</p>
     </div>
 
     <!-- Tombol Screenshot -->
     <div class="text-center mt-4">
-      <button class="btn btn-primary" onclick="takeScreenshot()">📸 Simpan Antrian sebagai Gambar</button>
+      <button class="btn btn-primary w-100 py-2" onclick="takeScreenshot()">📸 Simpan sebagai Gambar</button>
     </div>
   </div>
+
+  <!-- Script Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- JavaScript Screenshot -->
   <script>
@@ -42,7 +58,7 @@
       html2canvas(container).then(canvas => {
         const link = document.createElement('a');
         link.download = 'nomor-antrian.png';
-        link.href = canvas.toDataURL();
+        link.href = canvas.toDataURL('image/png');
         link.click();
       });
     }

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head><title>Review RW</title></head>
+<body>
+<h2>Review RW</h2>
+<table border="1" cellpadding="6">
+  <tr><th>Survey</th><th>RT</th><th>Status</th><th>Aksi</th></tr>
+  {% for r in responses %}
+  <tr>
+    <td>{{ r.survey.name }} ({{ r.survey.year }})</td>
+    <td>{{ r.respondent.username }}</td>
+    <td>{{ r.get_status_display }}</td>
+    <td>
+      {% if r.status != 'review_rw' and r.status != 'approved_staff' %}
+      <a href="{% url 'rw_approve' r.id %}">Setujui RW</a>
+      {% else %}
+      -
+      {% endif %}
+    </td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="4">Belum ada data untuk direview.</td></tr>
+  {% endfor %}
+</table>
+<p><a href="{% url 'survey_home' %}">Kembali</a></p>
+</body>
+</html>

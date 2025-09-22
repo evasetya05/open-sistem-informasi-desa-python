@@ -1,7 +1,7 @@
 {% extends "navbar.html" %}
 
 {% block title_block %}
-    HR Dashboard
+    Staff Desa Dashboard
 {% endblock title_block %}
 
 {% block content %}
@@ -30,6 +30,16 @@
                 <ul class="dropdown-menu bg-light shadow">
                     <li><a class="dropdown-item" href="{% url 'create_investasi' %}">Berita Investasi</a></li>
                     
+                </ul>
+            </li>
+            <!-- Survey Data Link -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarSurvey" role="button" data-bs-toggle="dropdown">
+                    Survey Data
+                </a>
+                <ul class="dropdown-menu bg-light shadow">
+                    <li><a class="dropdown-item" href="{% url 'survey_create' %}">Buat Survey</a></li>
+                   
                 </ul>
             </li>
 

@@ -47,11 +47,10 @@ INSTALLED_APPS = [
     'User',
     'Account',
     'Dashboard',
-    'Vacancy',
-    'Job',
     'home',
     'layanan',
     'blog',
+    'survey',
     
 ]
 
@@ -154,12 +153,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-STATIC_URL = '/static/'  
 
-# Path absolut ke folder untuk menyimpan file static di production
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]   # untuk development
+STATIC_ROOT = BASE_DIR / "staticfiles"     # untuk collectstatic di production
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / "media"
+
+
 
 # STATIC_ROOT tidak perlu di development
 
@@ -189,8 +192,7 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = 'sdmportabel@sdmportabel.my.id'
 EMAIL_HOST_PASSWORD = '@M4rd!anakv~!'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

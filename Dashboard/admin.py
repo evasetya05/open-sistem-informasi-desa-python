@@ -1,6 +1,6 @@
+# admin.py
 from django.contrib import admin
+from .models import Header, Banner
 
-from Job.models import Jobs, Application
-
-admin.site.register(Jobs)
-admin.site.register(Application)
+admin.site.register(Header)
+admin.site.register(Banner)

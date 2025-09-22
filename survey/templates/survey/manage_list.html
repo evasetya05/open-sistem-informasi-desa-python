@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head><title>Kelola Survey (Staff Desa)</title></head>
+<body>
+<h2>Kelola Survey</h2>
+<p><a href="{% url 'survey_create' %}">+ Buat Survey Baru</a></p>
+
+<table border="1" cellpadding="6">
+  <tr><th>Nama</th><th>Tahun</th><th>Status</th><th>Aksi</th></tr>
+  {% for s in surveys %}
+  <tr>
+    <td>{{ s.name }}</td>
+    <td>{{ s.year }}</td>
+    <td>{{ s.is_active|yesno:"AKTIF,NONAKTIF" }}</td>
+    <td>
+      <a href="{% url 'survey_edit' s.id %}">Edit</a>
+    </td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="4">Belum ada survey.</td></tr>
+  {% endfor %}
+</table>
+
+<p><a href="{% url 'staff_review_list' %}">Review Final (Staff)</a></p>
+<p><a href="{% url 'rw_review_list' %}">Halaman Review RW</a></p>
+</body>
+</html>

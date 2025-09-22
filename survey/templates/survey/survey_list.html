@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daftar Survey</title>
+</head>
+<body>
+    <h2>Daftar Survey</h2>
+
+    {% if user.user_position == "RT" %}
+        <a href="{% url 'survey_create' %}">Tambah Survey</a>
+    {% endif %}
+
+    <ul>
+        {% for s in surveys %}
+            <li>
+                {{ s.warga.username }} | Tanah: {{ s.kepemilikan_tanah }} | 
+                Kendaraan: {{ s.kepemilikan_kendaraan }} | 
+                Hewan: {{ s.hewan_piaraan }} ({{ s.jumlah_hewan }}) | 
+                Pekerjaan: {{ s.pekerjaan }} | Status: {{ s.get_status_display }}
+                
+                {% if user.user_position == "RW" %}
+                    <a href="{% url 'survey_review_rw' s.id %}">Setujui RW</a>
+                {% elif user.user_position in "SD ST" %}
+                    <a href="{% url 'survey_approve_staff' s.id %}">Approve Staff</a>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>Belum ada data</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

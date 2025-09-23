@@ -3,7 +3,7 @@ import pymysql
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['sumberoto.teknusa.com', 'www.sumberoto.teknusa.com']
+ALLOWED_HOSTS = ['desa.teknusa.com', 'www.desa.teknusa.com']
 
 
 pymysql.install_as_MySQLdb()
@@ -24,10 +24,10 @@ DATABASES = {
 }
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/home/teknusas/public_html/sumberoto/static'
+STATIC_ROOT = '/home/teknusas/desa.teknusa.com/static'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/home/teknusas/public_html/sumberoto/media'
+MEDIA_ROOT = '/home/teknusas/desa.teknusa.com/media'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

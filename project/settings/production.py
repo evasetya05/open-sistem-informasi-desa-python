@@ -2,7 +2,9 @@ from .base import *
 import pymysql
 
 DEBUG = False
-ALLOWED_HOSTS = ['sumberoto.teknusa.com', 'www.sumberoto.teknusa.com']
+
+# ALLOWED_HOSTS = ['sumberoto.teknusa.com', 'www.sumberoto.teknusa.com']
+ALLOWED_HOSTS = ['*']
 
 pymysql.install_as_MySQLdb()
 

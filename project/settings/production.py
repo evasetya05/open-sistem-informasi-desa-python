@@ -25,6 +25,8 @@ DATABASES = {
 
 STATIC_URL = '/static/'
 STATIC_ROOT = '/home/teknusas/public_html/sumberoto/static'
+
+MEDIA_URL = '/media/'
 MEDIA_ROOT = '/home/teknusas/public_html/sumberoto/media'
 
 

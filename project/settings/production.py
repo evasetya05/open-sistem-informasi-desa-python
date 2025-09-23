@@ -3,10 +3,8 @@ import pymysql
 
 DEBUG = False
 
-# ALLOWED_HOSTS = ['sumberoto.teknusa.com', 'www.sumberoto.teknusa.com']
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['sumberoto.teknusa.com', 'www.sumberoto.teknusa.com']
 
-# testets
 
 pymysql.install_as_MySQLdb()
 

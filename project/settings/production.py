@@ -9,9 +9,9 @@ pymysql.install_as_MySQLdb()
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sistem_desa',
-        'USER': 'root',
-        'PASSWORD': '',
+        'NAME': 'teknusas_sumberoto',
+        'USER': 'teknusas_sumberoto',
+        'PASSWORD': '@Pontianak123',
         'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {
@@ -21,8 +21,8 @@ DATABASES = {
     }
 }
 
-STATIC_ROOT = '/home/teknusas/publick_html/sumberoto/static'
-MEDIA_ROOT = '/home/teknusas/publick_html/sumberoto/media'
+STATIC_ROOT = '/home/teknusas/public_html/sumberoto/static'
+MEDIA_ROOT = '/home/teknusas/public_html/sumberoto/media'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Penduduk</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #999; padding: 8px; text-align: left; }
+        th { background-color: #eee; }
+    </style>
+</head>
+<body>
+    <h2>Daftar Penduduk</h2>
+    <a href="{% url 'penduduk_tambah' %}">+ Tambah Penduduk</a>
+    <table>
+        <tr>
+            <th>NIK</th>
+            <th>Nama Lengkap</th>
+            <th>Jenis Kelamin</th>
+            <th>Tempat Lahir</th>
+            <th>Tanggal Lahir</th>
+            <th>Alamat</th>
+            <th>Kecamatan</th>
+            <th>Kelurahan</th>
+        </tr>
+        {% for p in data %}
+        <tr>
+            <td>{{ p.nik }}</td>
+            <td>{{ p.nama_lgkp }}</td>
+            <td>{{ p.get_jenis_klmin_display }}</td>
+            <td>{{ p.tmpt_lhr }}</td>
+            <td>{{ p.tgl_lhr }}</td>
+            <td>{{ p.alamat }}</td>
+            <td>{{ p.nama_kec }}</td>
+            <td>{{ p.nama_kel }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="8">Belum ada data.</td></tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

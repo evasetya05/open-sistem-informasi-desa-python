@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tambah Data Penduduk</title>
+</head>
+<body>
+    <h2>Form Tambah Penduduk</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Simpan</button>
+        <a href="{% url 'penduduk_index' %}">Kembali</a>
+    </form>
+</body>
+</html>

@@ -34,6 +34,7 @@ urlpatterns = [
                 path('home', include('home.urls')),  # gunakan nama app kamu di sini
                 path('layanan/', include('layanan.urls')),  # gunakan nama app kamu di sini
                 path('ckeditor/', include('ckeditor_uploader.urls')),
+                path('penduduk/', include('kependudukan.urls')),
                 path("survey/", include("survey.urls")),
                 
 

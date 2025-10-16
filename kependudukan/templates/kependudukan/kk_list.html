@@ -1,0 +1,23 @@
+
+{% block content %}
+<h2>Daftar Kartu Keluarga</h2>
+<a href="{% url 'kk_add' %}" class="btn btn-primary">Tambah KK Baru</a>
+<table class="table table-bordered mt-3">
+  <tr>
+    <th>No KK</th>
+    <th>Alamat</th>
+    <th>Dusun</th>
+    <th>RT/RW</th>
+    <th>Aksi</th>
+  </tr>
+  {% for kk in kks %}
+  <tr>
+    <td>{{ kk.no_kk }}</td>
+    <td>{{ kk.alamat }}</td>
+    <td>{{ kk.dusun }}</td>
+    <td>{{ kk.no_rt }}/{{ kk.no_rw }}</td>
+    <td><a href="{% url 'kk_detail' kk.pk %}">Lihat Anggota</a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

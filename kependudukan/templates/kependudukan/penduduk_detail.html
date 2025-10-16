@@ -1,0 +1,45 @@
+
+{% block content %}
+<h2>Detail Penduduk</h2>
+
+<table class="table table-bordered table-striped">
+  <tr><th>NIK</th><td>{{ penduduk.nik }}</td></tr>
+  <tr><th>Nama Lengkap</th><td>{{ penduduk.nama_lgkp }}</td></tr>
+  <tr><th>Jenis Kelamin</th><td>{{ penduduk.get_jenis_klmin_display }} ({{ penduduk.jenis_klmin_ket }})</td></tr>
+  <tr><th>Tempat, Tanggal Lahir</th><td>{{ penduduk.tmpt_lhr }}, {{ penduduk.tgl_lhr|date:"d M Y" }}</td></tr>
+
+  <tr><th>Agama</th><td>{{ penduduk.agama_ket }}{% if penduduk.agama %} ({{ penduduk.agama }}){% endif %}</td></tr>
+  <tr><th>Pendidikan Terakhir</th><td>{{ penduduk.pendidikan_akh_ket }}</td></tr>
+  <tr><th>Pekerjaan</th><td>{{ penduduk.jenis_pkrjn_ket }}</td></tr>
+  <tr><th>Golongan Darah</th><td>{{ penduduk.gol_drh }}</td></tr>
+
+  <tr><th>Status Kawin</th><td>{{ penduduk.stat_kwn_ket }}{% if penduduk.tgl_kwn %} sejak {{ penduduk.tgl_kwn|date:"d M Y" }}{% endif %}</td></tr>
+  <tr><th>Hubungan dalam Keluarga</th><td>{{ penduduk.stat_hbkel_1 }}</td></tr>
+
+  <tr><th>Alamat</th><td>{{ penduduk.alamat }}</td></tr>
+  <tr><th>RT/RW</th><td>{{ penduduk.no_rt }}/{{ penduduk.no_rw }}</td></tr>
+  <tr><th>Dusun</th><td>{{ penduduk.dusun }}</td></tr>
+  <tr><th>Kode Pos</th><td>{{ penduduk.kode_pos }}</td></tr>
+  <tr><th>No Telepon</th><td>{{ penduduk.telp }}</td></tr>
+
+  <tr><th>Provinsi</th><td>{{ penduduk.nama_prop }} ({{ penduduk.no_prop }})</td></tr>
+  <tr><th>Kabupaten/Kota</th><td>{{ penduduk.nama_kab }} ({{ penduduk.no_kab }})</td></tr>
+  <tr><th>Kecamatan</th><td>{{ penduduk.nama_kec }} ({{ penduduk.no_kec }})</td></tr>
+  <tr><th>Kelurahan/Desa</th><td>{{ penduduk.nama_kel }} ({{ penduduk.no_kel }})</td></tr>
+
+  <tr>
+    <th>Kartu Keluarga</th>
+    <td>
+      {% if penduduk.kk %}
+        <a href="{% url 'kk_detail' penduduk.kk.pk %}">{{ penduduk.kk.no_kk }}</a>
+      {% else %}
+        Belum terhubung
+      {% endif %}
+    </td>
+  </tr>
+
+  <tr><th>No KK (manual)</th><td>{{ penduduk.no_kk }}</td></tr>
+</table>
+
+<a href="{% url 'penduduk_list' %}" class="btn btn-secondary mt-3">← Kembali ke Daftar Penduduk</a>
+{% endblock %}

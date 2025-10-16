@@ -1,0 +1,26 @@
+
+{% block content %}
+<h2>Daftar Penduduk</h2>
+<a href="{% url 'penduduk_add' %}" class="btn btn-primary">Tambah Penduduk Baru</a>
+
+<table class="table table-striped mt-3">
+  <tr>
+    <th>NIK</th>
+    <th>Nama</th>
+    <th>Jenis Kelamin</th>
+    <th>No KK</th>
+    <th>Hubungan</th>
+    <th>Aksi</th>
+  </tr>
+  {% for p in penduduks %}
+  <tr>
+    <td>{{ p.nik }}</td>
+    <td>{{ p.nama_lgkp }}</td>
+    <td>{{ p.get_jenis_klmin_display }}</td>
+    <td>{{ p.no_kk }}</td>
+    <td>{{ p.stat_hbkel_1 }}</td>
+    <td><a href="{% url 'penduduk_detail' p.pk %}">Detail</a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

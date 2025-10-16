@@ -12,8 +12,15 @@ def kk_list(request):
 
 def kk_detail(request, pk):
     kk = get_object_or_404(KartuKeluarga, pk=pk)
-    anggota = Penduduk.objects.filter(kk=kk)
-    return render(request, 'kependudukan/kk_detail.html', {'kk': kk, 'anggota': anggota})
+    anggota = kk.penduduk_set.all()
+    anak_kk = kk.children.all()  # semua KK turunan
+
+    return render(request, 'kependudukan/kk_detail.html', {
+        'kk': kk,
+        'anggota': anggota,
+        'anak_kk': anak_kk,
+    })
+
 
 
 def kk_add(request):
@@ -25,6 +32,19 @@ def kk_add(request):
             return redirect('kk_list')
     else:
         form = KartuKeluargaForm()
+    return render(request, 'kependudukan/kk_form.html', {'form': form})
+
+
+def kk_edit(request, pk):
+    kk = get_object_or_404(KartuKeluarga, pk=pk)
+    if request.method == 'POST':
+        form = KartuKeluargaForm(request.POST, instance=kk)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Data Kartu Keluarga berhasil diperbarui.")
+            return redirect('kk_detail', pk=kk.pk)
+    else:
+        form = KartuKeluargaForm(instance=kk)
     return render(request, 'kependudukan/kk_form.html', {'form': form})
 
 

@@ -1,11 +1,31 @@
 from django import forms
 from .models import Penduduk, KartuKeluarga
 
+from django import forms
+from .models import KartuKeluarga, Penduduk
 
 class KartuKeluargaForm(forms.ModelForm):
     class Meta:
         model = KartuKeluarga
-        fields = ['no_kk', 'alamat', 'no_rt', 'no_rw', 'dusun', 'kode_pos']
+        fields = ['no_kk', 'alamat', 'no_rt', 'no_rw', 'dusun', 'kode_pos', 'parent']
+        labels = {
+            'no_kk': 'Nomor KK',
+            'alamat': 'Alamat',
+            'no_rt': 'RT',
+            'no_rw': 'RW',
+            'dusun': 'Dusun',
+            'kode_pos': 'Kode Pos',
+            'parent': 'KK Induk (Asal)',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Dropdown parent menampilkan no_kk + kepala keluarga
+        self.fields['parent'].queryset = KartuKeluarga.objects.all().order_by('no_kk')
+        self.fields['parent'].required = False
+        self.fields['parent'].empty_label = "— Tidak ada (KK utama) —"
+        self.fields['parent'].label_from_instance = lambda obj: f"{obj.no_kk} - {obj.kepala_keluarga or 'Tanpa Kepala'}"
+
 
 
 class PendudukForm(forms.ModelForm):

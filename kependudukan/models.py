@@ -1,6 +1,9 @@
 from django.db import models
 
 
+from django.db import models
+
+
 class KartuKeluarga(models.Model):
     no_kk = models.CharField("Nomor KK", max_length=20, unique=True)
     alamat = models.TextField(blank=True, null=True)
@@ -9,12 +12,23 @@ class KartuKeluarga(models.Model):
     dusun = models.CharField("Dusun", max_length=50, blank=True, null=True)
     kode_pos = models.CharField("Kode Pos", max_length=10, blank=True, null=True)
 
+    # KK asal = hubungan parent ke KK lain
+    parent = models.ForeignKey(
+        'self',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='children',
+        verbose_name="KK Induk / Asal"
+    )
+
     def __str__(self):
         return self.no_kk
-     # Tambahkan method untuk menemukan kepala keluarga (jika ada)
+
     @property
     def kepala_keluarga(self):
         return self.penduduk_set.filter(stat_hbkel_1__icontains="Kepala Keluarga").first()
+
 
 
 class Penduduk(models.Model):

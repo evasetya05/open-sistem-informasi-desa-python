@@ -1,28 +1,30 @@
+<h2>Detail Kartu Keluarga {{ kk.no_kk }}</h2>
 
-{% block content %}
-<h2>Kartu Keluarga: {{ kk.no_kk }}</h2>
 <p><strong>Alamat:</strong> {{ kk.alamat }}</p>
-<p><strong>Dusun:</strong> {{ kk.dusun }} (RT {{ kk.no_rt }}/RW {{ kk.no_rw }})</p>
+<p><strong>Kepala Keluarga:</strong> {{ kk.kepala_keluarga }}</p>
 
-<h3>Anggota Keluarga</h3>
-<table class="table table-bordered">
-  <tr>
-    <th>NIK</th>
-    <th>Nama</th>
-    <th>Jenis Kelamin</th>
-    <th>Hubungan</th>
-    <th>Aksi</th>
-  </tr>
-  {% for a in anggota %}
-  <tr>
-    <td>{{ a.nik }}</td>
-    <td>{{ a.nama_lgkp }}</td>
-    <td>{{ a.get_jenis_klmin_display }}</td>
-    <td>{{ a.stat_hbkel_1 }}</td>
-    <td><a href="{% url 'penduduk_detail' a.pk %}">Detail</a></td>
-  </tr>
+<h3>Anggota KK</h3>
+<ul>
+  {% for p in anggota %}
+    <li>{{ p.nama_lgkp }} ({{ p.stat_hbkel_1 }})</li>
   {% empty %}
-  <tr><td colspan="5">Belum ada anggota.</td></tr>
+    <li>Belum ada anggota</li>
   {% endfor %}
-</table>
-{% endblock %}
+</ul>
+
+<h3>KK Turunan / Anak KK</h3>
+<ul>
+  {% for child in anak_kk %}
+    <li>
+      <a href="{% url 'kk_detail' child.pk %}">{{ child.no_kk }}</a>
+    </li>
+  {% empty %}
+    <li>Tidak ada KK turunan</li>
+  {% endfor %}
+</ul>
+
+{% if kk.parent %}
+  <p><strong>KK Induk:</strong>
+    <a href="{% url 'kk_detail' kk.parent.pk %}">{{ kk.parent.no_kk }}</a>
+  </p>
+{% endif %}

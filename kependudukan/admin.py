@@ -17,7 +17,7 @@ class AnggotaInline(admin.TabularInline):
 # --- Admin Kartu Keluarga ---
 @admin.register(KartuKeluarga)
 class KartuKeluargaAdmin(admin.ModelAdmin):
-    list_display = ('no_kk', 'kepala_keluarga_nama', 'alamat', 'dusun', 'no_rt', 'no_rw')
+    list_display = ('no_kk', 'kepala_keluarga_nama', 'alamat', 'no_rt', 'no_rw')
     inlines = [AnggotaInline]
 
     def kepala_keluarga_nama(self, obj):

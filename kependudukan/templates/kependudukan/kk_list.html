@@ -1,23 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Daftar Kartu Keluarga</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-4">
+    <h2>Daftar Kartu Keluarga</h2>
+    <a href="{% url 'kk_add' %}" class="btn btn-primary mb-3">Tambah KK Baru</a>
 
-{% block content %}
-<h2>Daftar Kartu Keluarga</h2>
-<a href="{% url 'kk_add' %}" class="btn btn-primary">Tambah KK Baru</a>
-<table class="table table-bordered mt-3">
-  <tr>
-    <th>No KK</th>
-    <th>Alamat</th>
-    <th>Dusun</th>
-    <th>RT/RW</th>
-    <th>Aksi</th>
-  </tr>
-  {% for kk in kks %}
-  <tr>
-    <td>{{ kk.no_kk }}</td>
-    <td>{{ kk.alamat }}</td>
-    <td>{{ kk.dusun }}</td>
-    <td>{{ kk.no_rt }}/{{ kk.no_rw }}</td>
-    <td><a href="{% url 'kk_detail' kk.pk %}">Lihat Anggota</a></td>
-  </tr>
-  {% endfor %}
-</table>
-{% endblock %}
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>No KK</th>
+          <th>Kepala Keluarga</th>
+          <th>Status</th>
+          <th>Alamat</th>
+          <th>RT</th>
+          <th>RW</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for kk in kks %}
+      {% with kepala=kk.kepala_list.0 %}
+      <tr>
+        <td>{{ kk.no_kk }}</td>
+        <td>{% if kepala %}{{ kepala.nama_lgkp }}{% else %}-{% endif %}</td>
+        <td>{% if kepala %}{{ kepala.stat_hbkel_1 }}{% else %}-{% endif %}</td>
+        <td>{% if kepala %}{{ kepala.alamat }}{% else %}-{% endif %}</td>
+        <td>{% if kepala %}{{ kepala.no_rt }}{% else %}-{% endif %}</td>
+        <td>{% if kepala %}{{ kepala.no_rw }}{% else %}-{% endif %}</td>
+        <td><a href="{% url 'kk_detail' kk.pk %}" class="btn btn-sm btn-info">Lihat Anggota</a></td>
+      </tr>
+      {% endwith %}
+      {% endfor %}
+      </tbody>
+    </table>
+</div>
+</body>
+</html>

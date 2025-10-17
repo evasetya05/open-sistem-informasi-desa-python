@@ -3,13 +3,11 @@ from django.db import models
 
 from django.db import models
 
-
 class KartuKeluarga(models.Model):
     no_kk = models.CharField("Nomor KK", max_length=20, unique=True)
     alamat = models.TextField(blank=True, null=True)
     no_rt = models.CharField("RT", max_length=5, blank=True, null=True)
     no_rw = models.CharField("RW", max_length=5, blank=True, null=True)
-    dusun = models.CharField("Dusun", max_length=50, blank=True, null=True)
     kode_pos = models.CharField("Kode Pos", max_length=10, blank=True, null=True)
 
     # KK asal = hubungan parent ke KK lain
@@ -27,7 +25,31 @@ class KartuKeluarga(models.Model):
 
     @property
     def kepala_keluarga(self):
+        # Mengambil Penduduk yang statusnya kepala keluarga
         return self.penduduk_set.filter(stat_hbkel_1__icontains="Kepala Keluarga").first()
+
+    @property
+    def kepala_stat_hbkel(self):
+        # Mengambil stat_hbkel_1 dari kepala keluarga
+        kepala = self.kepala_keluarga
+        return kepala.stat_hbkel_1 if kepala else None
+
+    @property
+    def kepala_alamat(self):
+        # Mengambil alamat dari kepala keluarga
+        kepala = self.kepala_keluarga
+        return kepala.alamat if kepala else None
+    
+    @property
+    def kepala_no_rt(self):
+        kepala = self.kepala_keluarga
+        return kepala.no_rt if kepala else None
+
+    @property
+    def kepala_no_rw(self):
+        kepala = self.kepala_keluarga
+        return kepala.no_rw if kepala else None
+
 
 
 

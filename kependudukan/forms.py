@@ -7,13 +7,12 @@ from .models import KartuKeluarga, Penduduk
 class KartuKeluargaForm(forms.ModelForm):
     class Meta:
         model = KartuKeluarga
-        fields = ['no_kk', 'alamat', 'no_rt', 'no_rw', 'dusun', 'kode_pos', 'parent']
+        fields = ['no_kk', 'alamat', 'no_rt', 'no_rw', 'kode_pos', 'parent']
         labels = {
             'no_kk': 'Nomor KK',
             'alamat': 'Alamat',
             'no_rt': 'RT',
             'no_rw': 'RW',
-            'dusun': 'Dusun',
             'kode_pos': 'Kode Pos',
             'parent': 'KK Induk (Asal)',
         }

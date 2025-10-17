@@ -50,7 +50,7 @@ def kk_edit(request, pk):
 
 # --- Penduduk ---
 def penduduk_list(request):
-    penduduks = Penduduk.objects.select_related('kk').all()
+    penduduks = Penduduk.objects.select_related('no_kk').all()
     return render(request, 'kependudukan/penduduk_list.html', {'penduduks': penduduks})
 
 

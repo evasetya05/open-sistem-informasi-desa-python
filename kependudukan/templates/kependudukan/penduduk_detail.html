@@ -1,35 +1,42 @@
-<h2>Detail Kartu Keluarga {{ kk.no_kk }}</h2>
+<h2>Detail Penduduk: {{ penduduk.nama_lgkp }}</h2>
 
-<p><strong>Alamat:</strong> {{ kk.alamat }}</p>
-<p><strong>Kepala Keluarga:</strong> {{ kk.kepala_keluarga }}</p>
+<p><strong>NIK:</strong> {{ penduduk.nik }}</p>
+<p><strong>Jenis Kelamin:</strong> {{ penduduk.get_jenis_klmin_display }}</p>
+<p><strong>Keterangan Jenis Kelamin:</strong> {{ penduduk.jenis_klmin_ket }}</p>
+<p><strong>Tempat Lahir:</strong> {{ penduduk.tmpt_lhr }}</p>
+<p><strong>Tanggal Lahir:</strong> {{ penduduk.tgl_lhr }}</p>
+<p><strong>Agama (kode):</strong> {{ penduduk.agama }}</p>
+<p><strong>Agama:</strong> {{ penduduk.agama_ket }}</p>
+<p><strong>Kode Pendidikan:</strong> {{ penduduk.pddk_akh }}</p>
+<p><strong>Pendidikan Terakhir:</strong> {{ penduduk.pendidikan_akh_ket }}</p>
+<p><strong>Kode Pekerjaan:</strong> {{ penduduk.jenis_pkrjn }}</p>
+<p><strong>Pekerjaan:</strong> {{ penduduk.jenis_pkrjn_ket }}</p>
+<p><strong>Golongan Darah:</strong> {{ penduduk.gol_drh }}</p>
+<p><strong>Status Kawin:</strong> {{ penduduk.stat_kwn_ket }}</p>
+<p><strong>Tanggal Kawin:</strong> {{ penduduk.tgl_kwn }}</p>
+<p><strong>Status Hubungan Keluarga (kode):</strong> {{ penduduk.stat_hbkel }}</p>
+<p><strong>Hubungan Keluarga:</strong> {{ penduduk.stat_hbkel_1 }}</p>
 
-<h3>Anggota KK</h3>
-<ul>
-  {% for p in anggota %}
-    <li>
-      <a href="{% url 'penduduk_detail' p.pk %}" style="text-decoration: underline; color: blue;">
-        {{ p.nama_lgkp }}
-      </a> ({{ p.stat_hbkel_1 }})
-    </li>
-  {% empty %}
-    <li>Belum ada anggota</li>
-  {% endfor %}
-</ul>
->
+<h3>Alamat</h3>
+<p><strong>Alamat:</strong> {{ penduduk.alamat }}</p>
+<p><strong>RT / RW:</strong> {{ penduduk.no_rt }} / {{ penduduk.no_rw }}</p>
+<p><strong>Dusun:</strong> {{ penduduk.dusun }}</p>
+<p><strong>Kode Pos:</strong> {{ penduduk.kode_pos }}</p>
+<p><strong>No Telepon:</strong> {{ penduduk.telp }}</p>
 
-<h3>KK Turunan / Anak KK</h3>
-<ul>
-  {% for child in anak_kk %}
-    <li>
-      <a href="{% url 'kk_detail' child.pk %}">{{ child.no_kk }}</a>
-    </li>
-  {% empty %}
-    <li>Tidak ada KK turunan</li>
-  {% endfor %}
-</ul>
+<h3>Lokasi Administratif</h3>
+<p><strong>Provinsi:</strong> {{ penduduk.nama_prop }} ({{ penduduk.no_prop }})</p>
+<p><strong>Kabupaten:</strong> {{ penduduk.nama_kab }} ({{ penduduk.no_kab }})</p>
+<p><strong>Kecamatan:</strong> {{ penduduk.nama_kec }} ({{ penduduk.no_kec }})</p>
+<p><strong>Kelurahan:</strong> {{ penduduk.nama_kel }} ({{ penduduk.no_kel }})</p>
 
-{% if kk.parent %}
-  <p><strong>KK Induk:</strong>
-    <a href="{% url 'kk_detail' kk.parent.pk %}">{{ kk.parent.no_kk }}</a>
-  </p>
-{% endif %}
+<h3>No KK</h3>
+<p><strong>No KK:</strong>
+    {% if penduduk.no_kk %}
+        <a href="{% url 'kk_detail' penduduk.no_kk.pk %}">
+            {{ penduduk.no_kk.no_kk }}
+        </a>
+    {% else %}
+        -
+    {% endif %}
+</p>

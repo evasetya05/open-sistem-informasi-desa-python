@@ -6,11 +6,16 @@
 <h3>Anggota KK</h3>
 <ul>
   {% for p in anggota %}
-    <li>{{ p.nama_lgkp }} ({{ p.stat_hbkel_1 }})</li>
+    <li>
+      <a href="{% url 'penduduk_detail' p.pk %}" style="text-decoration: underline; color: blue;">
+        {{ p.nama_lgkp }}
+      </a> ({{ p.stat_hbkel_1 }})
+    </li>
   {% empty %}
     <li>Belum ada anggota</li>
   {% endfor %}
 </ul>
+
 
 <h3>KK Turunan / Anak KK</h3>
 <ul>

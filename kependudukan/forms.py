@@ -37,5 +37,5 @@ class PendudukForm(forms.ModelForm):
             'jenis_pkrjn_ket', 'gol_drh', 'stat_kwn_ket', 'tgl_kwn',
             'stat_hbkel_1', 'alamat', 'no_rt', 'no_rw', 'dusun', 'kode_pos',
             'telp', 'no_prop', 'nama_prop', 'no_kab', 'nama_kab', 'no_kec',
-            'nama_kec', 'no_kel', 'nama_kel', 'no_kk', 'kk'
+            'nama_kec', 'no_kel', 'nama_kel', 'no_kk'
         ]

@@ -32,30 +32,46 @@
                     
                 </ul>
             </li>
-            <!-- Survey Data Link -->
+           <!-- Survey Data Link -->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle text-white" href="#" id="navbarSurvey" role="button" data-bs-toggle="dropdown">
                     Survey Data
                 </a>
                 <ul class="dropdown-menu bg-light shadow">
-                    <li><a class="dropdown-item" href="{% url 'survey_create' %}">Buat Survey</a></li>
-                   
+                    <li><a class="dropdown-item" href="{% url 'survey_create' %}">📝 Buat Survey</a></li>
                 </ul>
             </li>
-            <!-- Survey Data Link -->
+
+            <!-- Staff Final Approval -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarStaff" role="button" data-bs-toggle="dropdown">
+                    Staff Final Approval
+                </a>
+                <ul class="dropdown-menu bg-light shadow">
+                    <li>
+                        <a class="dropdown-item" href="{% url 'staff_review_list' %}">
+                            🔍 Review Data
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'staff_approve' 1 %}">
+                            ✅ Approve Data
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- Kependudukan -->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle text-white" href="#" id="navbarSurvey" role="button" data-bs-toggle="dropdown">
                     Kependudukan
                 </a>
                 <ul class="dropdown-menu bg-light shadow">
-                    <li><a class="dropdown-item" href="{% url 'penduduk_list' %}">Penduduk </a></li>
-                   
-                </ul>
-              
-                    <li><a class="dropdown-item" href="{% url 'kk_list' %}">Kartu Keluarga /a></li>
-                   
+                    <li><a class="dropdown-item" href="{% url 'penduduk_list' %}">Penduduk</a></li>
+                    <li><a class="dropdown-item" href="{% url 'kk_list' %}">Kartu Keluarga</a></li>
                 </ul>
             </li>
+
 
         </ul>
     </div>

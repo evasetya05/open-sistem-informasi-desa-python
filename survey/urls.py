@@ -20,4 +20,12 @@ urlpatterns = [
     # Staff final approval
     path("staff/review/", views.staff_review_list, name="staff_review_list"),
     path("staff/approve/<int:response_id>/", views.staff_approve, name="staff_approve"),
+
+
+
+
+    path("list/", views.survey_list, name="survey_list"),
+    path("rw/review/<int:survey_id>/", views.survey_review_rw, name="survey_review_rw"),
+    path("staff/approve/<int:survey_id>/", views.survey_approve_staff, name="survey_approve_staff"),
 ]
+

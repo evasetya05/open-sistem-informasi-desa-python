@@ -11,19 +11,26 @@ from .forms import SurveyForm, QuestionForm, build_response_form
 def _is_staff_desa(user):
     return getattr(user, "user_position", None) in ["SD", "ST"]
 
-
 @login_required
 def survey_manage_list(request):
-    """
-    STAFF DESA: daftar survey (buat baru, edit, aktif/nonaktif)
-    RT/RW/Warga: lihat daftar survey aktif (untuk diisi)
-    """
-    if _is_staff_desa(request.user):
+    user = request.user
+
+    if _is_staff_desa(user):
         surveys = Survey.objects.all().order_by("-year", "-created_at")
         return render(request, "survey/manage_list.html", {"surveys": surveys})
     else:
         surveys = Survey.objects.filter(is_active=True).order_by("-year", "-created_at")
-        return render(request, "survey/available_list.html", {"surveys": surveys})
+        survey_list = []
+        for s in surveys:
+            resp = s.responses.filter(respondent=user).first()
+            status = resp.get_status_display() if resp else "Belum diisi"
+            survey_list.append({
+                "survey": s,
+                "status": status
+            })
+
+        return render(request, "survey/available_list.html", {"survey_list": survey_list})
+
 
 
 @login_required
@@ -146,12 +153,11 @@ def my_responses(request):
     responses = Response.objects.filter(respondent=request.user).select_related("survey").order_by("-submitted_at")
     return render(request, "survey/response_my_list.html", {"responses": responses})
 
-
 @login_required
 def rw_review_list(request):
     """
-    RW melihat response milik RT di bawahnya yang status SUBMITTED (siap review RW).
-    Syarat: user_position == "RW", dan filter berdasarkan parent_rw.
+    RW melihat response milik RT di bawahnya yang status SUBMITTED (siap review RW)
+    dan juga menampilkan yang sudah disetujui RW.
     """
     if getattr(request.user, "user_position", None) != "RW":
         return HttpResponseForbidden("Hanya RW yang bisa mengakses halaman ini.")
@@ -159,12 +165,23 @@ def rw_review_list(request):
     # Ambil semua RT di bawah RW ini
     rt_users = getattr(request.user, "rt_users", None).all() if hasattr(request.user, "rt_users") else []
 
-    responses = Response.objects.filter(
+    # Response yang belum disetujui RW
+    responses_pending = Response.objects.filter(
         respondent__in=rt_users,
-        status__in=[Response.SUBMITTED, Response.DRAFT]  # bisa lihat draft juga kalau mau
+        status__in=[Response.SUBMITTED, Response.DRAFT]
     ).select_related("survey", "respondent").order_by("-submitted_at")
 
-    return render(request, "survey/rw_review_list.html", {"responses": responses})
+    # Response yang sudah disetujui RW
+    responses_approved = Response.objects.filter(
+        respondent__in=rt_users,
+        status=Response.REVIEW_RW
+    ).select_related("survey", "respondent").order_by("-submitted_at")
+
+    return render(request, "survey/rw_review_list.html", {
+        "responses_pending": responses_pending,
+        "responses_approved": responses_approved,
+    })
+
 
 
 @login_required
@@ -188,16 +205,26 @@ def rw_approve(request, response_id):
 @login_required
 def staff_review_list(request):
     """
-    Staff Desa melihat response yang sudah disetujui RW (REVIEW_RW).
+    Staff Desa melihat response yang sudah disetujui RW (REVIEW_RW)
+    dan menampilkan status final yang sudah APPROVED_STAFF.
     """
     if not _is_staff_desa(request.user):
         return HttpResponseForbidden("Hanya Staff Desa yang bisa mengakses halaman ini.")
 
-    responses = Response.objects.filter(
+    # Response yang belum di-approve Staff (REVIEW_RW)
+    responses_pending = Response.objects.filter(
         status=Response.REVIEW_RW
     ).select_related("survey", "respondent").order_by("-submitted_at")
 
-    return render(request, "survey/staff_review_list.html", {"responses": responses})
+    # Response yang sudah di-approve Staff (APPROVED_STAFF)
+    responses_approved = Response.objects.filter(
+        status=Response.APPROVED_STAFF
+    ).select_related("survey", "respondent").order_by("-submitted_at")
+
+    return render(request, "survey/staff_review_list.html", {
+        "responses_pending": responses_pending,
+        "responses_approved": responses_approved,
+    })
 
 
 @login_required
@@ -212,3 +239,70 @@ def staff_approve(request, response_id):
     resp.status = Response.APPROVED_STAFF
     resp.save()
     return redirect("staff_review_list")
+
+
+
+@login_required
+def survey_list(request):
+    """
+    Menampilkan daftar survey aktif sesuai peran user:
+    - Staff Desa: semua survey aktif
+    - RW: semua survey aktif milik RT di bawahnya
+    - RT/Warga: semua survey aktif
+    """
+    user = request.user
+
+    # Semua survey aktif
+    surveys = Survey.objects.filter(is_active=True).order_by("-year", "-created_at")
+
+    # Tambahkan info status response untuk user (jika sudah submit)
+    survey_status = {}
+    for survey in surveys:
+        try:
+            resp = Response.objects.get(survey=survey, respondent=user)
+            survey_status[survey.id] = resp.get_status_display()
+        except Response.DoesNotExist:
+            survey_status[survey.id] = "Belum diisi"
+
+    context = {
+        "surveys": surveys,
+        "survey_status": survey_status,
+    }
+
+    return render(request, "survey/survey_list.html", context)
+
+@login_required
+def survey_review_rw(request, survey_id):
+    """
+    RW bisa setujui survey milik RT di bawahnya
+    """
+    if request.user.user_position != "RW":
+        return HttpResponseForbidden("Hanya RW yang bisa mengakses halaman ini.")
+
+    survey = get_object_or_404(Survey, id=survey_id)
+
+    # Pastikan survey milik RT di bawah RW
+    rt_users = getattr(request.user, "rt_users", None).all() if hasattr(request.user, "rt_users") else []
+    if survey.warga not in rt_users:
+        return HttpResponseForbidden("Tidak berwenang menyetujui survey ini.")
+
+    # Ubah status survey menjadi "REVIEW_RW"
+    survey.status = Survey.REVIEW_RW
+    survey.save()
+    return redirect("survey_list")
+
+
+@login_required
+def survey_approve_staff(request, survey_id):
+    """
+    Staff Desa approve survey
+    """
+    if not _is_staff_desa(request.user):
+        return HttpResponseForbidden("Hanya Staff Desa yang bisa approve survey.")
+
+    survey = get_object_or_404(Survey, id=survey_id)
+
+    # Ubah status survey menjadi "APPROVED_STAFF"
+    survey.status = Survey.APPROVED_STAFF
+    survey.save()
+    return redirect("survey_list")

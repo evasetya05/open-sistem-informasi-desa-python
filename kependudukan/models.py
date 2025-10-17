@@ -56,7 +56,7 @@ class KartuKeluarga(models.Model):
 class Penduduk(models.Model):
     
 
-    no_kk = models.ForeignKey(KartuKeluarga, on_delete=models.SET_NULL, null=True, blank=True)
+    no_kk = models.ForeignKey(KartuKeluarga, on_delete=models.SET_NULL, null=True, blank=True, related_name='penduduk_set')
 
     nik = models.CharField("NIK", max_length=20, unique=True)
     nama_lgkp = models.CharField("Nama Lengkap", max_length=100)

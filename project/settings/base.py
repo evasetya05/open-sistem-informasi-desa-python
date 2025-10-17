@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'import_export',
     'django_extensions',
+    'widget_tweaks',
 
     'User',
     'Account',

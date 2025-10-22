@@ -1,0 +1,26 @@
+<h3>Belum Disetujui</h3>
+<table>
+  {% for r in responses_pending %}
+    <tr>
+      <td>{{ r.survey.name }}</td>
+      <td>{{ r.respondent.username }}</td>
+      <td>{{ r.get_status_display }}</td>
+      <td><a href="{% url 'rw_approve' r.id %}">Setujui RW</a></td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="4">Belum ada data untuk direview.</td></tr>
+  {% endfor %}
+</table>
+
+<h3>Sudah Disetujui RW</h3>
+<table>
+  {% for r in responses_approved %}
+    <tr>
+      <td>{{ r.survey.name }}</td>
+      <td>{{ r.respondent.username }}</td>
+      <td>{{ r.get_status_display }}</td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="3">Belum ada data yang disetujui RW.</td></tr>
+  {% endfor %}
+</table>

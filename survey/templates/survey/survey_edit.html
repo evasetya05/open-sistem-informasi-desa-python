@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head><title>Edit Survey</title></head>
+<body>
+<h2>Edit Survey: {{ survey.name }} ({{ survey.year }})</h2>
+
+<h3>Detail</h3>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Update</button>
+</form>
+
+<h3>Pertanyaan</h3>
+<p><a href="{% url 'question_create' survey.id %}">+ Tambah Pertanyaan</a></p>
+<table border="1" cellpadding="6">
+  <tr><th>Urutan</th><th>Tipe</th><th>Pertanyaan</th><th>Pilihan</th><th>Aksi</th></tr>
+  {% for q in questions %}
+  <tr>
+    <td>{{ q.order }}</td>
+    <td>{{ q.get_question_type_display }}</td>
+    <td>{{ q.text }}</td>
+    <td>{{ q.choices }}</td>
+    <td><a href="{% url 'question_edit' survey.id q.id %}">Edit</a></td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="5">Belum ada pertanyaan.</td></tr>
+  {% endfor %}
+</table>
+
+<p><a href="{% url 'survey_home' %}">Kembali</a></p>
+</body>
+</html>

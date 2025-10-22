@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+</head>
+<body>
+<h2>{{ title }}</h2>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Simpan</button>
+</form>
+
+<!-- Link ke daftar survey -->
+<p><a href="{% url 'survey_list' %}">Kembali ke Daftar Survey</a></p>
+</body>
+</html>

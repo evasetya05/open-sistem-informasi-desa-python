@@ -1,0 +1,112 @@
+{% extends "navbar.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="container mt-4">
+
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="fw-bold mb-0">
+      <i class="bi bi-card-list text-primary"></i> Detail Kartu Keluarga
+    </h2>
+    <a href="{% url 'kk_list' %}" class="btn btn-outline-secondary btn-sm">
+      <i class="bi bi-arrow-left"></i> Kembali ke Daftar
+    </a>
+  </div>
+
+  <!-- Informasi Utama -->
+  <div class="card shadow-sm mb-4 border-0">
+    <div class="card-body">
+      <h5 class="card-title text-primary mb-3">Informasi Kartu Keluarga</h5>
+      <div class="row">
+        <div class="col-md-6 mb-2">
+          <strong>No KK:</strong><br> {{ kk.no_kk }}
+        </div>
+        <div class="col-md-6 mb-2">
+          <strong>Kepala Keluarga:</strong><br> {{ kk.kepala_keluarga|default:"-" }}
+        </div>
+        <div class="col-md-6 mb-2">
+          <strong>Alamat:</strong><br> {{ kk.alamat|default:"-" }}
+        </div>
+      </div>
+      {% if kk.parent %}
+      <div class="mt-3">
+        <strong>KK Induk:</strong>
+        <a href="{% url 'kk_detail' kk.parent.pk %}" class="text-decoration-none">
+          {{ kk.parent.no_kk }}
+        </a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Anggota KK -->
+  <div class="card shadow-sm mb-4 border-0">
+    <div class="card-body">
+      <h5 class="card-title text-success mb-3">
+        <i class="bi bi-people"></i> Anggota Keluarga
+      </h5>
+      {% if anggota %}
+      <div class="table-responsive">
+        <table class="table table-bordered align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Nama Lengkap</th>
+              <th>Hubungan</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in anggota %}
+            <tr>
+              <td>
+                <a href="{% url 'penduduk_detail' p.pk %}" class="text-decoration-none fw-semibold">
+                  {{ p.nama_lgkp }}
+                </a>
+              </td>
+              <td>{{ p.stat_hbkel_1 }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+        <p class="text-muted fst-italic">Belum ada anggota keluarga.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- KK Turunan -->
+  <div class="card shadow-sm border-0">
+    <div class="card-body">
+      <h5 class="card-title text-warning mb-3">
+        <i class="bi bi-diagram-3"></i> KK Turunan / Anak KK
+      </h5>
+      {% if anak_kk %}
+      <ul class="list-group list-group-flush">
+        {% for child in anak_kk %}
+        <li class="list-group-item">
+          <a href="{% url 'kk_detail' child.pk %}" class="text-decoration-none fw-semibold">
+            {{ child.no_kk }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+        <p class="text-muted fst-italic">Tidak ada KK turunan.</p>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
+
+<!-- Style tambahan -->
+<style>
+  .card {
+    border-radius: 12px;
+  }
+  .card-title i {
+    margin-right: 6px;
+  }
+</style>
+
+{% endblock %}

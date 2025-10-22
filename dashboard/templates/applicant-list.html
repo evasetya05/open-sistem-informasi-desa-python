@@ -1,0 +1,25 @@
+ <h5>Applicants:</h5>
+    {% if applications|length < 1%}
+        <p>Nobody has applied</p>
+    {% else %}
+        {% for application in applications %}
+            <p>Job Applied on: {{ application.job.title }} by <b>{{ application.applicant.username }}</b></p>
+            <a href="http://127.0.0.1:8000/{{ application.cv }}">View CV</a>
+            {% if not application.exam_attended %}
+                {% if  application.selected_for_exam %}
+                    <i>Exam Sent</i>
+                {% elif application.canceled_for_exam %}
+                    <i>Cancelled Exam</i>
+                    <a href="{% url 'vacancy:exam' application.id %}">Consider Taking Exam</a>
+                {% else %}
+                    <a href="{% url 'vacancy:exam' application.id %}">Take Exam</a>
+                    <a href="{% url 'vacancy:cancel-exam' application.id %}">Cancel Exam</a>
+    {#                <p>Proceed to Interview Exam</p>#}
+                {% endif %}
+            {% else %}
+                <p> Marks Obtained: {{ application.obtained_marks }}</p>
+            {% endif %}
+
+            <hr>
+        {% endfor %}
+    {% endif %}

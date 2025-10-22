@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head><title>Review Staff Desa</title></head>
+<body>
+<h2>Review Staff Desa</h2>
+
+<h3>Belum Disetujui</h3>
+<table border="1" cellpadding="6">
+  <tr><th>Survey</th><th>Responden</th><th>Status</th><th>Aksi</th></tr>
+  {% for r in responses_pending %}
+  <tr>
+    <td>{{ r.survey.name }} ({{ r.survey.year }})</td>
+    <td>{{ r.respondent.username }}</td>
+    <td>{{ r.get_status_display }}</td>
+    <td>
+      <a href="{% url 'staff_approve' r.id %}">Approve Final</a>
+    </td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="4">Belum ada data.</td></tr>
+  {% endfor %}
+</table>
+
+<h3>Sudah Disetujui</h3>
+<table border="1" cellpadding="6">
+  <tr><th>Survey</th><th>Responden</th><th>Status</th></tr>
+  {% for r in responses_approved %}
+  <tr>
+    <td>{{ r.survey.name }} ({{ r.survey.year }})</td>
+    <td>{{ r.respondent.username }}</td>
+    <td>{{ r.get_status_display }}</td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="3">Belum ada data yang sudah disetujui.</td></tr>
+  {% endfor %}
+</table>
+
+<p><a href="{% url 'survey_home' %}">Kembali</a></p>
+</body>
+</html>

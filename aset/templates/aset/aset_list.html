@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Daftar Aset</title>
+    <link rel="stylesheet" href="{% static 'aset/css/aset.css' %}">
+</head>
+<body>
+    <h1>Daftar Aset Desa</h1>
+
+    <a href="{% url 'aset:aset_create' %}">➕ Tambah Aset</a>
+
+    <table border="1" cellspacing="0" cellpadding="5">
+        <thead>
+            <tr>
+                <th>Nama</th>
+                <th>Jenis</th>
+                <th>Sub Kategori</th>
+                <th>Pemilik</th>
+                <th>Tahun</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for aset in asets %}
+            <tr>
+                <td>{{ aset.nama }}</td>
+                <td>{{ aset.get_jenis_display }}</td>
+                <td>{{ aset.sub_kategori|default:"-" }}</td>
+                <td>
+                    {% if aset.penduduk %}
+                        {{ aset.penduduk.nama }}
+                    {% elif aset.pemilik_luar %}
+                        Pemilik luar desa
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td>{{ aset.tahun_data }}</td>
+                <td><a href="{% url 'aset:aset_edit' aset.pk %}">Edit</a></td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="6">Belum ada data aset.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

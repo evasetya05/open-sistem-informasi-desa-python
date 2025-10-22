@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head><title>{{ title }}</title></head>
+<body>
+<h2>{{ title }} — {{ survey.name }}</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Simpan</button>
+</form>
+<p><a href="{% url 'survey_edit' survey.id %}">Kembali</a></p>
+</body>
+</html>

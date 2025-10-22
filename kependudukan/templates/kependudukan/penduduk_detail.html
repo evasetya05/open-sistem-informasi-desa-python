@@ -1,0 +1,117 @@
+{% extends "navbar.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+  <!-- Judul Halaman -->
+  <h2 class="mb-4 border-bottom pb-2">
+    <i class="bi bi-person-vcard"></i> Detail Penduduk: <span class="text-primary">{{ penduduk.nama_lgkp }}</span>
+  </h2>
+
+  <!-- Data Umum -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <i class="bi bi-info-circle"></i> Data Pribadi
+    </div>
+    <div class="card-body row g-3">
+
+      <div class="col-md-6"><strong>NIK:</strong> {{ penduduk.nik }}</div>
+      <div class="col-md-6"><strong>Jenis Kelamin:</strong> {{ penduduk.get_jenis_klmin_display }}</div>
+
+      <div class="col-md-6"><strong>Keterangan Jenis Kelamin:</strong> {{ penduduk.jenis_klmin_ket }}</div>
+      <div class="col-md-6"><strong>Tempat Lahir:</strong> {{ penduduk.tmpt_lhr }}</div>
+
+      <div class="col-md-6"><strong>Tanggal Lahir:</strong> {{ penduduk.tgl_lhr }}</div>
+      <div class="col-md-6"><strong>Golongan Darah:</strong> {{ penduduk.gol_drh }}</div>
+
+      <div class="col-md-6"><strong>Agama (Kode):</strong> {{ penduduk.agama }}</div>
+      <div class="col-md-6"><strong>Agama:</strong> {{ penduduk.agama_ket }}</div>
+
+      <div class="col-md-6"><strong>Kode Pendidikan:</strong> {{ penduduk.pddk_akh }}</div>
+      <div class="col-md-6"><strong>Pendidikan Terakhir:</strong> {{ penduduk.pendidikan_akh_ket }}</div>
+
+      <div class="col-md-6"><strong>Kode Pekerjaan:</strong> {{ penduduk.jenis_pkrjn }}</div>
+      <div class="col-md-6"><strong>Pekerjaan:</strong> {{ penduduk.jenis_pkrjn_ket }}</div>
+
+      <div class="col-md-6"><strong>Status Kawin:</strong> {{ penduduk.stat_kwn_ket }}</div>
+      <div class="col-md-6"><strong>Tanggal Kawin:</strong> {{ penduduk.tgl_kwn }}</div>
+
+      <div class="col-md-6"><strong>Status Hubungan Keluarga (Kode):</strong> {{ penduduk.stat_hbkel }}</div>
+      <div class="col-md-6"><strong>Hubungan Keluarga:</strong> {{ penduduk.stat_hbkel_1 }}</div>
+    </div>
+  </div>
+
+  <!-- Alamat -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-success text-white">
+      <i class="bi bi-geo-alt"></i> Alamat
+    </div>
+    <div class="card-body row g-3">
+      <div class="col-md-6"><strong>Alamat:</strong> {{ penduduk.alamat }}</div>
+      <div class="col-md-6"><strong>RT / RW:</strong> {{ penduduk.no_rt }} / {{ penduduk.no_rw }}</div>
+
+      <div class="col-md-6"><strong>Dusun:</strong> {{ penduduk.dusun }}</div>
+      <div class="col-md-6"><strong>Kode Pos:</strong> {{ penduduk.kode_pos }}</div>
+
+      <div class="col-md-6"><strong>No Telepon:</strong> {{ penduduk.telp }}</div>
+    </div>
+  </div>
+
+  <!-- Lokasi Administratif -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-info text-white">
+      <i class="bi bi-building"></i> Lokasi Administratif
+    </div>
+    <div class="card-body row g-3">
+      <div class="col-md-6"><strong>Provinsi:</strong> {{ penduduk.nama_prop }} ({{ penduduk.no_prop }})</div>
+      <div class="col-md-6"><strong>Kabupaten:</strong> {{ penduduk.nama_kab }} ({{ penduduk.no_kab }})</div>
+
+      <div class="col-md-6"><strong>Kecamatan:</strong> {{ penduduk.nama_kec }} ({{ penduduk.no_kec }})</div>
+      <div class="col-md-6"><strong>Kelurahan:</strong> {{ penduduk.nama_kel }} ({{ penduduk.no_kel }})</div>
+    </div>
+  </div>
+
+  <!-- No KK -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-secondary text-white">
+      <i class="bi bi-card-list"></i> Kartu Keluarga
+    </div>
+    <div class="card-body">
+      <p class="mb-0">
+        <strong>No KK:</strong>
+        {% if penduduk.no_kk %}
+          <a href="{% url 'kk_detail' penduduk.no_kk.pk %}" class="text-decoration-none">
+            {{ penduduk.no_kk.no_kk }}
+          </a>
+        {% else %}
+          -
+        {% endif %}
+      </p>
+    </div>
+  </div>
+
+  <!-- Tombol Aksi -->
+  <div class="text-end mt-3">
+    <a href="{% url 'penduduk_edit' penduduk.pk %}" class="btn btn-warning me-2">
+      <i class="bi bi-pencil-square"></i> Edit
+    </a>
+    <a href="{% url 'penduduk_list' %}" class="btn btn-secondary">
+      <i class="bi bi-arrow-left-circle"></i> Kembali ke Daftar
+    </a>
+  </div>
+
+</div>
+
+<!-- CSS tambahan ringan -->
+<style>
+  .card {
+    border-radius: 10px;
+  }
+  .card-header {
+    font-weight: 600;
+  }
+</style>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head><title>Jawaban Saya</title></head>
+<body>
+<h2>Jawaban Saya</h2>
+<table border="1" cellpadding="6">
+  <tr><th>Survey</th><th>Status</th><th>Dikirim</th><th>Aksi</th></tr>
+  {% for r in responses %}
+  <tr>
+    <td>{{ r.survey.name }} ({{ r.survey.year }})</td>
+    <td>{{ r.get_status_display }}</td>
+    <td>{{ r.submitted_at }}</td>
+    <td><a href="{% url 'response_fill' r.survey.id %}">Buka</a></td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="4">Belum ada jawaban.</td></tr>
+  {% endfor %}
+</table>
+<p><a href="{% url 'survey_home' %}">Kembali</a></p>
+</body>
+</html>

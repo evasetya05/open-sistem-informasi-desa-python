@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head><title>Isi Survey: {{ survey.name }}</title></head>
+<body>
+<h2>Isi Survey: {{ survey.name }} ({{ survey.year }})</h2>
+
+<form method="post">
+  {% csrf_token %}
+
+  {% for field in form %}
+    {% if field.name != "save_as" %}
+      <div style="margin-bottom: 12px;">
+        <label>{{ field.label }}</label><br>
+        {{ field }}
+        {% if field.errors %}
+          <div style="color:red;">{{ field.errors }}</div>
+        {% endif %}
+      </div>
+    {% else %}
+      {{ field }}  {# hidden save_as #}
+    {% endif %}
+  {% endfor %}
+
+  <button type="submit" onclick="document.getElementsByName('save_as')[0].value='draft'">Simpan Draft</button>
+  <button type="submit" onclick="document.getElementsByName('save_as')[0].value='submit'">Kirim</button>
+</form>
+
+<p>Status saat ini: {{ response.get_status_display }}</p>
+<p><a href="{% url 'my_responses' %}">Kembali</a></p>
+</body>
+</html>

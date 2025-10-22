@@ -1,0 +1,39 @@
+# General
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Virtual Environment
+venv/
+env/
+.env
+*.env
+
+# Django-specific
+/db.sqlite3
+/media/
+/static/
+
+# Logs and Debugging
+logs/
+*.log
+
+# IDE and Editor Files
+.vscode/
+*.swp
+*.swo
+.idea/
+*.iml
+
+# Migrations (optional, if you want to track migrations remove this)
+*/migrations/*.pyc
+*/migrations/*.py
+!*/migrations/__init__.py
+
+# LiteSpeed Server Specific
+lsws/
+logs/
+
+# Other
+.DS_Store

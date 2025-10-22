@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Buat Kegiatan Antrian</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container py-4">
+
+  <h2>Buat Kegiatan Antrian Baru</h2>
+
+  <form method="post" class="mb-4">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="kegiatan" class="form-label">Nama Kegiatan</label>
+      <input type="text" id="kegiatan" name="kegiatan" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Buat</button>
+  </form>
+
+  {% if session %}
+    <div class="alert alert-success">
+      Kegiatan "<strong>{{ session.kegiatan }}</strong>" berhasil dibuat untuk tanggal <strong>{{ session.tanggal|date:"F j, Y" }}</strong>!
+      <br>
+      <strong>Link Pendaftaran Antrian:</strong>
+      <a href="{{ full_url }}" target="_blank">{{ full_url }}</a>
+    </div>
+  {% endif %}
+
+  <hr>
+
+  <h4>Daftar Semua Kegiatan Antrian</h4>
+
+  {% if all_sessions %}
+    <ul class="list-group">
+      {% for s in all_sessions %}
+        <li class="list-group-item">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <strong>{{ s.kegiatan }}</strong> — {{ s.tanggal }}
+              <br>
+              <small>
+                {% comment %}
+                  Buat link WhatsApp dengan teks dan tautan pendaftaran
+                {% endcomment %}
+                <a href="https://wa.me/?text={{ s.full_url|urlencode }}" target="_blank" class="text-success">
+                    Share link via WA
+                    </a>
+
+              </small>
+            </div>
+            <div class="text-end">
+              {% if s.aktif %}
+                <span class="badge bg-success mb-1">Aktif</span><br>
+              {% else %}
+                <span class="badge bg-secondary mb-1">Tidak Aktif</span><br>
+              {% endif %}
+              <span class="badge bg-info text-dark">
+                {% if s.antrian_set.count > 0 %}
+                  {{ s.antrian_set.count }} Antrian
+                {% else %}
+                  Belum ada antrian
+                {% endif %}
+              </span>
+            </div>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="text-muted">Belum ada kegiatan.</p>
+  {% endif %}
+
+</body>
+</html>

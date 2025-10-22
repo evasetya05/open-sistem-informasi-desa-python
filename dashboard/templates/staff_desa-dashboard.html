@@ -1,0 +1,99 @@
+{% extends "navbar.html" %}
+
+{% block title_block %}
+    Staff Desa Dashboard
+{% endblock title_block %}
+
+{% block content %}
+<div class="d-flex">
+    <!-- Sidebar -->
+    <div class="bg-dark text-white p-3 shadow-lg" style="width:250px; min-height:100vh; position:fixed; top:0; left:0; z-index:1000; margin-top:56px;">
+        <h5 class="fw-bold mb-4">Menu</h5>
+        <ul class="nav flex-column gap-2">
+            <!-- Antrian Dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarAntrian" role="button" data-bs-toggle="dropdown">
+                    Antrian
+                </a>
+                <ul class="dropdown-menu bg-light shadow">
+                    <li><a class="dropdown-item" href="{% url 'panggil_antrian' %}">Panggil Antrian</a></li>
+                    <li><a class="dropdown-item" href="{% url 'buat_kegiatan_antrian' %}">Buat Kegiatan Antrian</a></li>
+                    <li><a class="dropdown-item" href="{% url 'riwayat_antrian' %}">Riwayat Antrian</a></li>
+                </ul>
+            </li>
+
+            <!-- Blog Link -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarAntrian" role="button" data-bs-toggle="dropdown">
+                    Post Berita
+                </a>
+                <ul class="dropdown-menu bg-light shadow">
+                    <li><a class="dropdown-item" href="{% url 'create_investasi' %}">Berita Investasi</a></li>
+                    
+                </ul>
+            </li>
+           <!-- Survey Data Link -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarSurvey" role="button" data-bs-toggle="dropdown">
+                    Survey Data
+                </a>
+                <ul class="dropdown-menu bg-light shadow">
+                    <li><a class="dropdown-item" href="{% url 'survey_create' %}">📝 Buat Survey</a></li>
+                    <li class="dropdown-divider"></li> <!-- optional separator -->
+                    <li>
+                        <a class="dropdown-item" href="{% url 'staff_review_list' %}">
+                            🔍 Review Data
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'staff_approve' 1 %}">
+                            ✅ Approve Data
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+
+            <!-- Kependudukan -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarSurvey" role="button" data-bs-toggle="dropdown">
+                    Kependudukan
+                </a>
+                <ul class="dropdown-menu bg-light shadow">
+                    <li><a class="dropdown-item" href="{% url 'penduduk_list' %}">Penduduk</a></li>
+                    <li><a class="dropdown-item" href="{% url 'kk_list' %}">Kartu Keluarga</a></li>
+                </ul>
+            </li>
+
+            <!-- Aset-->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarSurvey" role="button" data-bs-toggle="dropdown">
+                    Aset
+                </a>
+                <ul class="dropdown-menu bg-light shadow">
+                    <li><a class="dropdown-item" href="{% url 'aset:aset_list' %}">Daftar Aset</a></li>
+                    <li><a class="dropdown-item" href="{% url 'aset:aset_create' %}">Tambah Aset</a></li>
+
+                </ul>
+            </li>
+
+
+
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content p-4" style="flex-grow:1; margin-left:250px;">
+        {% if user.is_authenticated %}
+            <div class="card shadow-sm border-0 p-4">
+                <h3 class="fw-bold text-success">Welcome, {{ user.username }} 🎉</h3>
+                <p class="text-muted">Selamat datang di <strong>Desa Sumberoto Dashboard</strong></p>
+            </div>
+        {% else %}
+            <div class="alert alert-warning shadow-sm">
+                Anda belum login. Silakan <a href="{% url 'user:login' %}" class="alert-link">Login</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

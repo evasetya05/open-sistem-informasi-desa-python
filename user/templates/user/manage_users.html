@@ -1,0 +1,98 @@
+{% extends "navbar.html" %}
+{% load static %}
+
+{% block title_block %}
+    Kelola Pengguna
+{% endblock title_block %}
+
+{% block content %} 
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Kelola Pengguna</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { margin-bottom: 10px; }
+        .keterangan {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        .keterangan ul {
+            margin: 5px 0 0 20px;
+            padding: 0;
+        }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #f5f5f5; }
+        select { padding: 4px; }
+        button { padding: 6px 10px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background: #45a049; }
+        .msg { margin: 10px 0; padding: 8px; border-radius: 4px; }
+        .success { background: #e0ffe0; border: 1px solid #6ac16a; }
+        .error { background: #ffe0e0; border: 1px solid #c16a6a; }
+    </style>
+</head>
+<body>
+
+<h1>Kelola Posisi Pengguna</h1>
+
+<div class="keterangan">
+    <strong>Keterangan posisi pengguna:</strong>
+    <ul>
+        <li><b>kepala_desa</b> — Kepala Desa</li>
+        <li><b>sekretaris_desa</b> — Sekretaris Desa</li>
+        <li><b>staff_desa</b> — Staff Desa</li>
+        <li><b>rw</b> — Ketua RW</li>
+        <li><b>rt</b> — Ketua RT</li>
+        <li><b>warga</b> — Warga biasa</li>
+    </ul>
+</div>
+
+{% for message in messages %}
+  <div class="msg {% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</div>
+{% endfor %}
+
+<table>
+    <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Posisi Sekarang</th>
+        <th>Parent RW</th>
+        <th>Aksi</th>
+    </tr>
+    {% for user in users %}
+    <tr>
+        <form method="post">{% csrf_token %}
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>
+            <select name="user_position">
+                {% for value, label in user.POSITION_CHOICES %}
+                    <option value="{{ value }}" {% if user.user_position == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select name="parent_rw">
+                <option value="">---------</option>
+                {% for rw in rws %}
+                    <option value="{{ rw.id }}" {% if user.parent_rw_id == rw.id %}selected{% endif %}>{{ rw.username }}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <input type="hidden" name="user_id" value="{{ user.id }}">
+            <button type="submit">Simpan</button>
+        </td>
+        </form>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>
+{% endblock content %}

@@ -1,0 +1,66 @@
+/* Navbar custom */
+.navbar {
+    background-color: #198754; /* hijau desa */
+}
+.navbar .nav-link, .navbar-brand {
+    color: #fff !important;
+    font-weight: 500;
+}
+.navbar .nav-link:hover {
+    color: #ffe082 !important;
+}
+
+/* Hero section */
+.hero-section {
+    min-height: 70vh;
+    background-repeat: no-repeat;   /* gambar tidak diulang */
+    background-position: center center; /* posisinya di tengah */
+    background-size: cover;        /* biar gambar proporsional dan memenuhi */
+    position: relative;
+    padding: 60px 0;
+    margin-bottom: 40px; /* jarak ke carousel */
+}
+
+.hero-section .overlay {
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.hero-section .container {
+    z-index: 2;
+}
+
+/* Carousel */
+/* Gambar dalam carousel: center, tidak tile */
+.carousel-item img {
+    width: 100%;
+    height: auto;
+    max-height: 450px;         /* batas tinggi carousel */
+    object-fit: contain;       /* gambar tetap utuh */
+    object-position: center;   /* posisi di tengah */
+    margin: 0 auto;            /* center horizontal */
+    background-color: transparent; /* transparan */
+}
+
+/* Responsive adjustment */
+@media (min-width: 768px) {
+    .carousel-item img {
+        max-height: 600px;     /* lebih tinggi di layar besar */
+    }
+}
+
+/* Card berita */
+.card img {
+    height: 180px;
+    object-fit: cover;
+}
+@media (min-width: 768px) {
+    .card img {
+        height: 200px;
+    }
+}
+
+/* Footer */
+footer {
+    font-size: 0.9rem;
+}

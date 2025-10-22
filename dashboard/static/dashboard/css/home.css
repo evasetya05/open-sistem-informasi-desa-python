@@ -12,7 +12,7 @@
 
 /* Hero section */
 .hero-section {
-    min-height: 70vh;
+    min-height: 10vh;
     background-repeat: no-repeat;   /* gambar tidak diulang */
     background-position: center center; /* posisinya di tengah */
     background-size: cover;        /* biar gambar proporsional dan memenuhi */

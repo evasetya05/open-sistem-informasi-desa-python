@@ -10,6 +10,11 @@ env/
 .env
 *.env
 
+venvl/
+envl/
+.envl
+*.envl
+
 # Django-specific
 /db.sqlite3
 /media/

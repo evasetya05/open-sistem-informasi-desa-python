@@ -36,10 +36,15 @@
       <div class="col-md-6"><strong>Pekerjaan:</strong> {{ penduduk.jenis_pkrjn_ket }}</div>
 
       <div class="col-md-6"><strong>Status Kawin:</strong> {{ penduduk.stat_kwn_ket }}</div>
+      
       <div class="col-md-6"><strong>Tanggal Kawin:</strong> {{ penduduk.tgl_kwn }}</div>
 
       <div class="col-md-6"><strong>Status Hubungan Keluarga (Kode):</strong> {{ penduduk.stat_hbkel }}</div>
       <div class="col-md-6"><strong>Hubungan Keluarga:</strong> {{ penduduk.stat_hbkel_1 }}</div>
+      <div class="col-md-6"><strong>Status Hidup:</strong> {{ penduduk.status_hidup|yesno:"Hidup,Meninggal" }}</div>
+      {% if not penduduk.status_hidup %}
+      <div class="col-md-6"><strong>Tanggal Meninggal:</strong> {{ penduduk.tgl_meninggal|default:"-" }}</div>
+      {% endif %}
     </div>
   </div>
 

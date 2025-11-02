@@ -49,6 +49,7 @@
           <th>Jenis Kelamin</th>
           <th>No KK</th>
           <th>Hubungan</th>
+          <th>Status</th>
           <th class="text-center">Aksi</th>
         </tr>
       </thead>
@@ -60,6 +61,13 @@
           <td>{{ p.get_jenis_klmin_display }}</td>
           <td>{% if p.no_kk %}{{ p.no_kk.no_kk }}{% else %}-{% endif %}</td>
           <td>{{ p.stat_hbkel_1 }}</td>
+          <td>
+            {% if p.status_hidup %}
+              <span class="badge bg-success">Hidup</span>
+            {% else %}
+              <span class="badge bg-danger">Meninggal</span>
+            {% endif %}
+          </td>
           <td class="text-center">
             <a href="{% url 'penduduk_detail' p.pk %}" class="btn btn-sm btn-info me-1">
               <i class="bi bi-eye"></i> Detail
@@ -71,7 +79,7 @@
         </tr>
       {% empty %}
         <tr>
-          <td colspan="6" class="text-center text-muted py-3">Tidak ada data</td>
+          <td colspan="7" class="text-center text-muted py-3">Tidak ada data</td>
         </tr>
       {% endfor %}
       </tbody>

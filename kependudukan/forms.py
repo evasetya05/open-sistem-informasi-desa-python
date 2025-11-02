@@ -34,7 +34,18 @@ class PendudukForm(forms.ModelForm):
             'nik', 'nama_lgkp', 'jenis_klmin', 'jenis_klmin_ket', 'tmpt_lhr', 'tgl_lhr',
             'agama', 'agama_ket', 'pddk_akh', 'pendidikan_akh_ket', 'jenis_pkrjn',
             'jenis_pkrjn_ket', 'gol_drh', 'stat_kwn_ket', 'tgl_kwn',
-            'stat_hbkel_1', 'alamat', 'no_rt', 'no_rw', 'dusun', 'kode_pos',
+            'stat_hbkel_1', 'status_hidup', 'tgl_meninggal', 'alamat', 'no_rt', 'no_rw', 'dusun', 'kode_pos',
             'telp', 'no_prop', 'nama_prop', 'no_kab', 'nama_kab', 'no_kec',
             'nama_kec', 'no_kel', 'nama_kel', 'no_kk'
         ]
+
+    def clean(self):
+        cleaned = super().clean()
+        status_hidup = cleaned.get('status_hidup')
+        tgl_meninggal = cleaned.get('tgl_meninggal')
+        if status_hidup is True:
+            cleaned['tgl_meninggal'] = None
+        else:
+            if not tgl_meninggal:
+                self.add_error('tgl_meninggal', 'Tanggal meninggal wajib diisi jika status tidak hidup.')
+        return cleaned

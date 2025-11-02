@@ -89,6 +89,8 @@ class Penduduk(models.Model):
     nama_kec = models.CharField("Nama Kecamatan", max_length=50)
     no_kel = models.CharField("Kode Kelurahan", max_length=5)
     nama_kel = models.CharField("Nama Kelurahan", max_length=50)
+    status_hidup = models.BooleanField("Hidup", default=True)
+    tgl_meninggal = models.DateField("Tanggal Meninggal", blank=True, null=True)
 
     def __str__(self):
         return f"{self.nama_lgkp} ({self.nik})"

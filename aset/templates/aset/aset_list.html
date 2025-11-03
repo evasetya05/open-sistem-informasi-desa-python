@@ -16,8 +16,9 @@
             <tr>
                 <th>Nama</th>
                 <th>Jenis</th>
-                <th>Sub Kategori</th>
-                <th>Pemilik</th>
+                <th>Luas SPPT</th>
+                <th>NIB</th>
+              
                 <th>Tahun</th>
                 <th>Aksi</th>
             </tr>
@@ -27,16 +28,9 @@
             <tr>
                 <td>{{ aset.nama }}</td>
                 <td>{{ aset.get_jenis_display }}</td>
-                <td>{{ aset.sub_kategori|default:"-" }}</td>
-                <td>
-                    {% if aset.penduduk %}
-                        {{ aset.penduduk.nama }}
-                    {% elif aset.pemilik_luar %}
-                        Pemilik luar desa
-                    {% else %}
-                        -
-                    {% endif %}
-                </td>
+                
+                <td>{{ aset.luas_sppt|default:"-" }}</td>
+                <td>{{ aset.nib|default:"-" }}</td>
                 <td>{{ aset.tahun_data }}</td>
                 <td><a href="{% url 'aset:aset_edit' aset.pk %}">Edit</a></td>
             </tr>

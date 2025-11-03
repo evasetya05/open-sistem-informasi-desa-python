@@ -66,6 +66,7 @@
                 <th>Lokasi</th>
                 <th>Nilai Taksiran</th>
                 <th>Tahun Data</th>
+                <th>Aksi</th>
               </tr>
             </thead>
             <tbody>
@@ -74,9 +75,14 @@
                   <td>{{ aset.get_jenis_display }}</td>
                   <td>{{ aset.nama }}</td>
                   <td>{{ aset.sub_kategori|default:"-" }}</td>
-                  <td>{{ aset.lokasi_lahan|default:"-" }}</td>
+                  <td>{{ aset.luas_sppt|default:"-" }}</td>
                   <td>{% if aset.nilai_taksiran %}Rp {{ aset.nilai_taksiran|floatformat:2|default:"0.00" }}{% else %}-"{% endif %}</td>
                   <td>{{ aset.tahun_data }}</td>
+                  <td>
+                    <a href="{% url 'aset:aset_edit' aset.id %}" class="btn btn-info btn-sm">
+                      <i class="fas fa-edit"></i> Edit
+                    </a>
+                  </td>
                 </tr>
               {% endfor %}
             </tbody>

@@ -45,29 +45,30 @@
                 </tr>
             </thead>
             <tbody>
-                {% for survey in surveys %}
-                <tr>
-                    <td>{{ survey.name }}</td>
-                    <td>{{ survey.year }}</td>
-                    <td>
-                        {% with resp=survey.responses.filter(respondent=user).first %}
-                            {% if resp %}
-                                {{ resp.get_status_display }}
-                            {% else %}
-                                Belum diisi
-                            {% endif %}
-                        {% endwith %}
-                    </td>
-                    <td>
-                        <a href="{% url 'response_fill' survey.id %}" class="btn btn-sm btn-primary">Isi Survey</a>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="4">Belum ada survey aktif.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
+{% for survey in surveys %}
+<tr>
+    <td>{{ survey.name }}</td>
+    <td>{{ survey.year }}</td>
+    <td>
+        {% with resp=user_responses.survey.id %}
+            {% if resp %}
+                {{ resp.get_status_display }}
+            {% else %}
+                Belum diisi
+            {% endif %}
+        {% endwith %}
+    </td>
+    <td>
+        <a href="{% url 'response_fill' survey.id %}" class="btn btn-sm btn-primary">Isi Survey</a>
+    </td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="4">Belum ada survey aktif.</td>
+</tr>
+{% endfor %}
+</tbody>
+
         </table>
     </div>
 </div>

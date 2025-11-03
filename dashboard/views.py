@@ -1,8 +1,11 @@
+
 from django.shortcuts import render
 from .models import Header, Banner
-# views.py
-from django.shortcuts import render
-from .models import Header, Banner
+from survey.models import Survey, Response
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 
 def dashboard(request):
     header = Header.objects.first()  # kalau kosong akan None
@@ -18,46 +21,46 @@ def dashboard(request):
     )
 
 
-from django.shortcuts import render
-from django.contrib.auth import get_user_model
-from dashboard.models import Header, Banner
-
-User = get_user_model()
 
 
 def index(request):
     header = Header.objects.first()
-    banners = Banner.objects.filter(is_active=True)  # kalau ada field aktif
+    banners = Banner.objects.filter(is_active=True)
 
     if request.user.is_authenticated:
         current_user = request.user
 
-        if current_user.user_position == 'KD':  # Kepala Desa
-            return render(request, 'kd-dashboard.html',
-                          context={'header': header, 'banners': banners, 'user': current_user})
+        # Ambil semua survey
+        surveys = Survey.objects.all()
 
-        elif current_user.user_position == 'SD':  # Sekretaris Desa
-            return render(request, 'sd-dashboard.html',
-                          context={'header': header, 'banners': banners, 'user': current_user})
+        # Buat dict survey_id -> response user
+        user_responses = {}
+        for survey in surveys:
+            resp = survey.responses.filter(respondent=current_user).first()
+            user_responses[survey.id] = resp
 
-        elif current_user.user_position == 'ST':  # Staff Desa
-            return render(request, 'staff_desa-dashboard.html',
-                          context={'header': header, 'banners': banners, 'user': current_user})
+        context = {
+            'header': header,
+            'banners': banners,
+            'user': current_user,
+            'surveys': surveys,
+            'user_responses': user_responses,
+        }
 
-        elif current_user.user_position == 'RW':  # RW
-            return render(request, 'rw-dashboard.html',
-                          context={'header': header, 'banners': banners, 'user': current_user})
-
-        elif current_user.user_position == 'RT':  # RT
-            return render(request, 'rt-dashboard.html',
-                          context={'header': header, 'banners': banners, 'user': current_user})
-
+        if current_user.user_position == 'KD':
+            return render(request, 'kd-dashboard.html', context)
+        elif current_user.user_position == 'SD':
+            return render(request, 'sd-dashboard.html', context)
+        elif current_user.user_position == 'ST':
+            return render(request, 'staff_desa-dashboard.html', context)
+        elif current_user.user_position == 'RW':
+            return render(request, 'rw-dashboard.html', context)
+        elif current_user.user_position == 'RT':
+            return render(request, 'rt-dashboard.html', context)
         else:
-            # fallback untuk role lain (misalnya warga)
-            return render(request, 'i-dashboard.html',
-                          context={'header': header, 'banners': banners, 'user': current_user})
+            return render(request, 'i-dashboard.html', context)
 
-    # kalau user belum login
+    # user belum login
     return render(request, 'i-dashboard.html', context={'header': header, 'banners': banners})
 
 

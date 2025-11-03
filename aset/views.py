@@ -1,10 +1,22 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import Q
 from .models import Aset
 from .forms import AsetForm
 
 def aset_list(request):
-    aset_list = Aset.objects.all().order_by('-tahun_data')
-    return render(request, "aset/aset_list.html", {"asets": aset_list})
+    q = request.GET.get("q", "").strip()
+    aset_qs = Aset.objects.all().order_by('-tahun_data')
+    if q:
+        aset_qs = aset_qs.filter(
+            Q(nama__icontains=q)
+            | Q(jenis__icontains=q)
+            | Q(sub_kategori__icontains=q)
+            | Q(no_ktp__icontains=q)
+            | Q(no_sppt__icontains=q)
+            | Q(nib__icontains=q)
+            | Q(tahun_data__icontains=q)
+        )
+    return render(request, "aset/aset_list.html", {"asets": aset_qs, "q": q})
 
 def aset_create(request):
     if request.method == "POST":

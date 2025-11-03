@@ -16,7 +16,7 @@ class Aset(models.Model):
     sub_kategori = models.CharField(max_length=100, blank=True, null=True)
     nama = models.CharField(max_length=255)
 
-    no_ktp = models.CharField(max_length=50, blank=True, null=True)
+    no_ktp = models.CharField(max_length=50, blank=True, null=True, db_index=True)
     alamat = models.CharField(max_length=255, blank=True, null=True)
     rt_rw = models.CharField(max_length=20, blank=True, null=True)
     desa = models.CharField(max_length=100, blank=True, null=True)
@@ -56,3 +56,37 @@ class Aset(models.Model):
 
     def __str__(self):
         return f"{self.nama} ({self.get_jenis_display()})"
+
+    def save(self, *args, **kwargs):
+        """
+        Otomatis hubungkan Aset dengan Penduduk berdasarkan NIK/no_ktp.
+        Sinkronisasi dua arah antara penduduk dan no_ktp.
+        """
+        # Jika penduduk belum diisi tapi no_ktp ada → cari penduduk berdasarkan NIK
+        if not self.penduduk_id and self.no_ktp:
+            try:
+                self.penduduk = Penduduk.objects.get(nik=self.no_ktp)
+            except Penduduk.DoesNotExist:
+                self.penduduk = None
+
+        # Jika penduduk diisi tapi no_ktp kosong → isi otomatis dari penduduk.nik
+        if self.penduduk_id and not self.no_ktp:
+            self.no_ktp = self.penduduk.nik
+
+        super().save(*args, **kwargs)
+
+    @property
+    def nama_pemilik(self):
+        """
+        Nama pemilik otomatis diambil dari model Penduduk jika ada.
+        """
+        return self.penduduk.nama_lgkp if self.penduduk else "-"
+
+    @property
+    def alamat_pemilik(self):
+        """
+        Ambil alamat dari data kependudukan jika tersedia.
+        """
+        if self.penduduk:
+            return self.penduduk.alamat
+        return self.alamat or "-"

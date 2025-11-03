@@ -12,6 +12,12 @@
 
     <a href="{% url 'aset:aset_create' %}">➕ Tambah Aset</a>
 
+    <form method="get" style="margin: 10px 0;">
+        <input type="text" name="q" placeholder="Cari nama, jenis, NIB, KTP, SPPT, tahun" value="{{ q|default:'' }}" />
+        <button type="submit">Cari</button>
+        {% if q %}<a href="{% url 'aset:aset_list' %}">Reset</a>{% endif %}
+    </form>
+
     <table border="1" cellspacing="0" cellpadding="5">
         <thead>
             <tr>

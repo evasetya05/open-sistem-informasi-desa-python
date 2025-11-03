@@ -187,4 +187,15 @@ def penduduk_export_xlsx(request):
 @login_required
 def penduduk_detail(request, pk):
     penduduk = get_object_or_404(Penduduk, pk=pk)
-    return render(request, 'kependudukan/penduduk_detail.html', {'penduduk': penduduk})
+    # Ambil daftar aset yang dimiliki oleh penduduk ini berdasarkan NIK
+    aset_penduduk = []
+    try:
+        from aset.models import Aset
+        aset_penduduk = Aset.objects.filter(no_ktp=penduduk.nik).order_by('-tahun_data', 'jenis')
+    except ImportError:
+        pass
+    
+    return render(request, 'kependudukan/penduduk_detail.html', {
+        'penduduk': penduduk,
+        'aset_penduduk': aset_penduduk
+    })

@@ -46,6 +46,46 @@
       <div class="col-md-6"><strong>Tanggal Meninggal:</strong> {{ penduduk.tgl_meninggal|default:"-" }}</div>
       {% endif %}
     </div>
+
+  </div>
+
+  <!-- Daftar Aset -->
+  <div class="card mt-4">
+    <div class="card-header">
+      <h5 class="mb-0">Daftar Aset</h5>
+    </div>
+    <div class="card-body">
+      {% if aset_penduduk %}
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Jenis Aset</th>
+                <th>Nama</th>
+                <th>Sub Kategori</th>
+                <th>Lokasi</th>
+                <th>Nilai Taksiran</th>
+                <th>Tahun Data</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for aset in aset_penduduk %}
+                <tr>
+                  <td>{{ aset.get_jenis_display }}</td>
+                  <td>{{ aset.nama }}</td>
+                  <td>{{ aset.sub_kategori|default:"-" }}</td>
+                  <td>{{ aset.lokasi_lahan|default:"-" }}</td>
+                  <td>{% if aset.nilai_taksiran %}Rp {{ aset.nilai_taksiran|floatformat:2|default:"0.00" }}{% else %}-"{% endif %}</td>
+                  <td>{{ aset.tahun_data }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <div class="alert alert-info">Tidak ada data aset yang tercatat untuk penduduk ini.</div>
+      {% endif %}
+    </div>
   </div>
 
   <!-- Alamat -->

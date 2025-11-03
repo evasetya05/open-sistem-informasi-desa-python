@@ -4,145 +4,15 @@
     <title>{{ title }}</title>
 </head>
 <body>
-{% extends 'base.html' %}
+<h2>{{ title }}</h2>
 
-{% block content %}
-<div class="container py-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">
-                        <i class="fas fa-poll me-2"></i>
-                        {% if form.instance.pk %}Edit{% else %}Buat{% endif %} Survey Baru
-                    </h4>
-                </div>
-                <div class="card-body">
-                    <form method="post" class="needs-validation" novalidate>
-                        {% csrf_token %}
-                        
-                        {% if form.non_field_errors %}
-                            <div class="alert alert-danger">
-                                {% for error in form.non_field_errors %}
-                                    {{ error }}
-                                {% endfor %}
-                            </div>
-                        {% endif %}
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Simpan</button>
+</form>
 
-                        <!-- Nama Survey -->
-                        <div class="mb-3">
-                            <label for="{{ form.name.id_for_label }}" class="form-label">
-                                Nama Survey <span class="text-danger">*</span>
-                            </label>
-                            {{ form.name }}
-                            {% if form.name.errors %}
-                                <div class="invalid-feedback d-block">
-                                    {{ form.name.errors.0 }}
-                                </div>
-                            {% endif %}
-                            <div class="form-text">
-                                Beri nama yang deskriptif untuk survey ini
-                            </div>
-                        </div>
-
-                        <!-- Deskripsi -->
-                        <div class="mb-3">
-                            <label for="{{ form.description.id_for_label }}" class="form-label">
-                                Deskripsi
-                            </label>
-                            {{ form.description }}
-                            {% if form.description.errors %}
-                                <div class="invalid-feedback d-block">
-                                    {{ form.description.errors.0 }}
-                                </div>
-                            {% endif %}
-                            <div class="form-text">
-                                Tambahkan penjelasan singkat tentang tujuan survey ini
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <!-- Tahun -->
-                            <div class="col-md-6 mb-3">
-                                <label for="{{ form.year.id_for_label }}" class="form-label">
-                                    Tahun <span class="text-danger">*</span>
-                                </label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                                    {{ form.year }}
-                                </div>
-                                {% if form.year.errors %}
-                                    <div class="invalid-feedback d-block">
-                                        {{ form.year.errors.0 }}
-                                    </div>
-                                {% endif %}
-                            </div>
-
-                            <!-- Periode -->
-                            <div class="col-md-6 mb-3">
-                                <label for="{{ form.period.id_for_label }}" class="form-label">
-                                    Periode <span class="text-danger">*</span>
-                                </label>
-                                <div class="input-group">
-                                    <span class="input-group-text">#</span>
-                                    {{ form.period }}
-                                </div>
-                                {% if form.period.errors %}
-                                    <div class="invalid-feedback d-block">
-                                        {{ form.period.errors.0 }}
-                                    </div>
-                                {% endif %}
-                                <div class="form-text">
-                                    Periode survey dalam setahun (contoh: 1, 2, 3, ...)
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Status Aktif -->
-                        <div class="mb-4">
-                            <div class="form-check form-switch">
-                                {{ form.is_active }}
-                                <label class="form-check-label" for="{{ form.is_active.id_for_label }}">
-                                    Aktifkan Survey
-                                </label>
-                            </div>
-                            <div class="form-text">
-                                Nonaktifkan jika survey sudah selesai atau belum dimulai
-                            </div>
-                        </div>
-
-                        <!-- Tombol Aksi -->
-                        <div class="d-flex justify-content-between">
-                            <a href="{% url 'survey:survey_list' %}" class="btn btn-outline-secondary">
-                                <i class="fas fa-arrow-left me-1"></i> Kembali
-                            </a>
-                            <div>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-save me-1"></i> Simpan Survey
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<style>
-    .form-control:focus, .form-select:focus {
-        border-color: #80bdff;
-        box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
-    }
-    .form-switch .form-check-input:checked {
-        background-color: #0d6efd;
-        border-color: #0d6efd;
-    }
-    .form-text {
-        color: #6c757d;
-        font-size: 0.875em;
-    }
-</style>
-{% endblock %}
+<!-- Link ke daftar survey -->
+<p><a href="{% url 'survey_list' %}">Kembali ke Daftar Survey</a></p>
 </body>
 </html>

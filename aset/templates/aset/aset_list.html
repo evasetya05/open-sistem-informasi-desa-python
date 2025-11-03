@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -29,8 +30,16 @@
                 <td>{{ aset.nama }}</td>
                 <td>{{ aset.get_jenis_display }}</td>
                 
-                <td>{{ aset.luas_sppt|default:"-" }}</td>
-                <td>{{ aset.nib|default:"-" }}</td>
+                <td>
+                    {% if aset.luas_sppt %}
+                        {{ aset.luas_sppt|intcomma }}
+                    {% else %}-{% endif %}
+                </td>
+               <td>
+                {% if aset.nib %}
+                    {{ aset.nib|floatformat:0 }}
+                {% else %}-{% endif %}
+                </td>
                 <td>{{ aset.tahun_data }}</td>
                 <td><a href="{% url 'aset:aset_edit' aset.pk %}">Edit</a></td>
             </tr>

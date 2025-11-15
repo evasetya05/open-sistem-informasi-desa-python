@@ -49,28 +49,30 @@ def index(request):
         total_laki = Penduduk.objects.filter(jenis_klmin_ket__iexact='Lk', status_hidup=True).count()
         total_perempuan = Penduduk.objects.filter(jenis_klmin_ket__iexact='Pr', status_hidup=True).count()
 
-        # distribusi umur sederhana untuk penduduk hidup
+        # distribusi umur per 5 tahun untuk penduduk hidup
         today = datetime.date.today()
-        kelompok = {
-            '0-5': 0,
-            '6-18': 0,
-            '19-59': 0,
-            '60+': 0,
-        }
+        kelompok = {}
         for tgl in Penduduk.objects.filter(status_hidup=True).values_list('tgl_lhr', flat=True):
             if not tgl:
                 continue
             umur = today.year - tgl.year - ((today.month, today.day) < (tgl.month, tgl.day))
-            if umur <= 5:
-                kelompok['0-5'] += 1
-            elif umur <= 18:
-                kelompok['6-18'] += 1
-            elif umur <= 59:
-                kelompok['19-59'] += 1
+            if umur < 0:
+                continue
+            if umur >= 80:
+                label = '80+'
             else:
-                kelompok['60+'] += 1
+                start = (umur // 5) * 5
+                end = start + 4
+                label = f"{start}-{end}"
+            kelompok[label] = kelompok.get(label, 0) + 1
 
-        age_labels = list(kelompok.keys())
+        # urutkan label umur secara numerik sederhana (0-4,5-9,...,80+)
+        def sort_key(l):
+            if l.endswith('+'):
+                return 10_000
+            return int(l.split('-')[0])
+
+        age_labels = sorted(kelompok.keys(), key=sort_key)
         age_counts = [kelompok[k] for k in age_labels]
 
         context = {

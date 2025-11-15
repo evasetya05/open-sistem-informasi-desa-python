@@ -1,4 +1,5 @@
 {% extends "navbar.html" %}
+{% load humanize %}
 
 {% block title_block %}
     Staff Desa Dashboard
@@ -96,7 +97,7 @@
                     <div class="card text-white bg-primary shadow-sm">
                         <div class="card-body">
                             <h6 class="card-title mb-1">Total Penduduk</h6>
-                            <h3 class="fw-bold mb-0">{{ total_penduduk }}</h3>
+                            <h3 class="fw-bold mb-0">{{ total_penduduk|intcomma }}</h3>
                         </div>
                     </div>
                 </div>
@@ -104,7 +105,7 @@
                     <div class="card text-white bg-success shadow-sm">
                         <div class="card-body">
                             <h6 class="card-title mb-1">Penduduk Hidup</h6>
-                            <h3 class="fw-bold mb-0">{{ total_penduduk_hidup }}</h3>
+                            <h3 class="fw-bold mb-0">{{ total_penduduk_hidup|intcomma }}</h3>
                         </div>
                     </div>
                 </div>
@@ -112,7 +113,7 @@
                     <div class="card text-white bg-info shadow-sm">
                         <div class="card-body">
                             <h6 class="card-title mb-1">Laki-laki</h6>
-                            <h3 class="fw-bold mb-0">{{ total_laki }}</h3>
+                            <h3 class="fw-bold mb-0">{{ total_laki|intcomma }}</h3>
                         </div>
                     </div>
                 </div>
@@ -120,7 +121,7 @@
                     <div class="card text-white bg-danger shadow-sm">
                         <div class="card-body">
                             <h6 class="card-title mb-1">Perempuan</h6>
-                            <h3 class="fw-bold mb-0">{{ total_perempuan }}</h3>
+                            <h3 class="fw-bold mb-0">{{ total_perempuan|intcomma }}</h3>
                         </div>
                     </div>
                 </div>
@@ -131,7 +132,7 @@
                     <div class="card text-white bg-secondary shadow-sm">
                         <div class="card-body">
                             <h6 class="card-title mb-1">Total KK</h6>
-                            <h3 class="fw-bold mb-0">{{ total_kk }}</h3>
+                            <h3 class="fw-bold mb-0">{{ total_kk|intcomma }}</h3>
                         </div>
                     </div>
                 </div>

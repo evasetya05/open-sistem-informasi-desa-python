@@ -10,8 +10,9 @@
     color: #ffe082 !important;
 }
 
+
 .hero-section {
-    height: 150px; /* lebih tipis lagi */
+    min-height: 55vh;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -20,9 +21,9 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding: 0 30px; /* hilangkan padding atas-bawah */
-    margin-bottom: 20px;
-    overflow: hidden; /* pastikan tidak melebar karena isi */
+    padding: 4rem 0;
+    margin-bottom: 2.5rem;
+    overflow: hidden;
 }
 
 .hero-section .overlay {
@@ -35,20 +36,22 @@
 .hero-section .container {
     position: relative;
     z-index: 2;
-    padding: 0; /* hilangkan padding default dari bootstrap container */
 }
 
 .hero-section h1 {
-    font-size: 1.4rem; /* kecilkan font agar proporsional */
+    font-size: clamp(2rem, 4vw, 3rem);
     font-weight: 700;
-    margin: 0; /* hilangkan margin bawaan */
-    line-height: 1.2;
+    margin-bottom: 1rem;
 }
 
 .hero-section p {
-    font-size: 0.9rem;
-    margin: 0;
-    line-height: 1.1;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    margin-bottom: 1.5rem;
+    max-width: 540px;
+}
+
+.hero-actions .btn {
+    margin-right: 0.75rem;
 }
 
 /* Carousel */
@@ -70,18 +73,117 @@
     }
 }
 
-/* Card berita */
-.card img {
-    height: 180px;
-    object-fit: cover;
+.stat-card {
+    border-radius: 1rem;
+    border: 1px solid rgba(25, 135, 84, 0.15);
+    background: #fff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-@media (min-width: 768px) {
-    .card img {
-        height: 200px;
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(25, 135, 84, 0.15);
+}
+
+.stat-card .icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(25, 135, 84, 0.12);
+    color: #198754;
+    font-size: 1.4rem;
+    margin-bottom: 0.75rem;
+}
+
+.mini-metric {
+    border-radius: 1rem;
+    background: #f4f9f6;
+    padding: 1.25rem;
+    height: 100%;
+}
+
+.mini-metric .progress {
+    height: 0.5rem;
+    border-radius: 1rem;
+}
+
+.mini-metric .progress-bar {
+    background: linear-gradient(90deg, #198754 0%, #51c060 100%);
+}
+
+.investasi-ticker {
+    height: 260px;
+    position: relative;
+}
+
+.investasi-ticker-inner {
+    display: inline-block;
+    animation: investasi-ticker-scroll 30s linear infinite;
+}
+
+@keyframes investasi-ticker-scroll {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-50%);
     }
 }
 
-/* Footer */
+.investasi-ticker-inner:hover {
+    animation-play-state: paused;
+}
+
+.service-card {
+    border-radius: 1rem;
+    border: 1px solid rgba(25, 135, 84, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%;
+}
+
+.service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(25, 135, 84, 0.15);
+}
+
+.service-card .icon-wrapper {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(25, 135, 84, 0.12);
+    color: #198754;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
 footer {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    background: #146c43;
+}
+
+footer a {
+    color: #d1f2e0;
+}
+
+footer a:hover {
+    color: #fff;
+}
+
+@media (max-width: 576px) {
+    .hero-section {
+        padding: 3rem 0;
+        min-height: auto;
+    }
+
+    .hero-actions .btn {
+        display: block;
+        width: 100%;
+        margin: 0 0 0.75rem 0;
+    }
 }

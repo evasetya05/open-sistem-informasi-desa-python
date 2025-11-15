@@ -4,6 +4,7 @@ from .models import Header, Banner
 from apps.survey.models import Survey, Response
 from django.contrib.auth import get_user_model
 from apps.kependudukan.models import Penduduk, KartuKeluarga
+from apps.home.models.investasi import PostingInvestasi
 import datetime
 
 User = get_user_model()
@@ -40,6 +41,7 @@ def index(request):
     total_perempuan = qs_hidup.filter(jenis_klmin_ket__iexact='Pr').count()
     dusun_count = qs_hidup.exclude(dusun__isnull=True).exclude(dusun__exact='').values('dusun').distinct().count()
     rt_count = qs_hidup.exclude(no_rt__isnull=True).exclude(no_rt__exact='').values('no_rt').distinct().count()
+    investasi_list = PostingInvestasi.objects.order_by('-tanggal_terbit')[:10]
 
     if request.user.is_authenticated:
         current_user = request.user
@@ -111,6 +113,7 @@ def index(request):
             'total_perempuan': total_perempuan,
             'dusun_count': dusun_count,
             'rt_count': rt_count,
+            'investasi_list': investasi_list,
             'age_labels': age_labels,
             'age_counts': age_counts,
             'edu_labels': edu_labels,
@@ -146,6 +149,7 @@ def index(request):
         'total_perempuan': total_perempuan,
         'dusun_count': dusun_count,
         'rt_count': rt_count,
+        'investasi_list': investasi_list,
     }
     return render(request, 'i-dashboard.html', context=public_context)
 

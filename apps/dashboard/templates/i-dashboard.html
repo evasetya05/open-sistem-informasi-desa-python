@@ -27,9 +27,10 @@
 
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav text-center">
-                <li class="nav-item"><a class="nav-link" href="#">Profil</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Statistik</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Berita</a></li>
+                <li class="nav-item"><a class="nav-link" href="#profil">Profil</a></li>
+                <li class="nav-item"><a class="nav-link" href="#statistik">Statistik</a></li>
+                <li class="nav-item"><a class="nav-link" href="#layanan">Layanan</a></li>
+                <li class="nav-item"><a class="nav-link" href="#investasi">Berita</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarInvestasi" role="button" data-bs-toggle="dropdown">
                         Investasi
@@ -60,7 +61,39 @@
     <div class="overlay"></div>
     <div class="container">
         <h1 class="fw-bold">Selamat Datang di Desa Digital</h1>
-        <p>Menuju Desa Cerdas, Transparan, dan Mandiri</p>
+        <p>Portal informasi dan layanan terpadu untuk warga Desa Sumberoto. Nikmati kemudahan mengakses data, berita, dan layanan publik secara daring.</p>
+        <div class="hero-actions d-flex flex-wrap">
+            <a href="#layanan" class="btn btn-warning text-dark fw-semibold mb-2">Lihat Layanan</a>
+            <a href="{% url 'user:login' %}" class="btn btn-outline-light fw-semibold mb-2">Masuk Dashboard</a>
+        </div>
+        <div class="d-flex flex-wrap gap-3 text-white-50 mt-3 small">
+            <div><span class="me-1">✔</span>Data kependudukan realtime</div>
+            <div><span class="me-1">✔</span>Transparansi informasi publik</div>
+            <div><span class="me-1">✔</span>Layanan administrasi cepat</div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Profil Singkat -->
+<section id="profil" class="py-5">
+    <div class="container">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-6">
+                <h2 class="fw-bold mb-3">Tentang Desa Sumberoto</h2>
+                <p class="text-muted mb-3">Desa Sumberoto berkomitmen menjadi desa cerdas dengan memanfaatkan teknologi untuk meningkatkan pelayanan publik, transparansi, dan partisipasi masyarakat. Melalui portal digital ini, warga dapat mengakses informasi penting, berita terkini, hingga layanan administrasi kapan saja.</p>
+                <ul class="list-unstyled text-muted">
+                    <li class="mb-2">• Menyajikan data kependudukan yang akurat.</li>
+                    <li class="mb-2">• Menyediakan berita dan informasi perkembangan desa.</li>
+                    <li>• Memudahkan pengajuan layanan administrasi secara daring.</li>
+                </ul>
+            </div>
+            <div class="col-lg-6">
+                <div class="ratio ratio-16x9 rounded-4 overflow-hidden shadow-sm">
+                    <iframe src="https://www.youtube.com/embed/AbCdEfGh" title="Profil Desa" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -83,35 +116,159 @@
 </div>
 
 <!-- Statistik -->
-<section class="py-5 bg-light text-center">
+<section id="statistik" class="py-5 bg-light">
     <div class="container">
         <h2 class="mb-4">Statistik Desa</h2>
-        <div class="row g-4">
-            <div class="col-6 col-md-3"><h3>{{ total_penduduk_hidup|default:0|intcomma }}</h3><p>Penduduk</p></div>
-            <div class="col-6 col-md-3"><h3>{{ total_kk|default:0|intcomma }}</h3><p>Keluarga</p></div>
-            <div class="col-6 col-md-3"><h3>{{ dusun_count|default:0|intcomma }}</h3><p>Dusun</p></div>
-            <div class="col-6 col-md-3"><h3>{{ rt_count|default:0|intcomma }}</h3><p>RT</p></div>
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-lg-3">
+                <div class="stat-card p-4 h-100 text-center">
+                    <div class="icon-wrapper mx-auto">
+                        <span class="fw-bold">👥</span>
+                    </div>
+                    <h3 class="fw-bold mb-1">{{ total_penduduk_hidup|default:0|intcomma }}</h3>
+                    <p class="text-muted mb-0 small">Penduduk Hidup</p>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="stat-card p-4 h-100 text-center">
+                    <div class="icon-wrapper mx-auto">
+                        <span class="fw-bold">🏠</span>
+                    </div>
+                    <h3 class="fw-bold mb-1">{{ total_kk|default:0|intcomma }}</h3>
+                    <p class="text-muted mb-0 small">Kepala Keluarga</p>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="stat-card p-4 h-100 text-center">
+                    <div class="icon-wrapper mx-auto">
+                        <span class="fw-bold">🌱</span>
+                    </div>
+                    <h3 class="fw-bold mb-1">{{ dusun_count|default:0|intcomma }}</h3>
+                    <p class="text-muted mb-0 small">Jumlah Dusun</p>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="stat-card p-4 h-100 text-center">
+                    <div class="icon-wrapper mx-auto">
+                        <span class="fw-bold">🏘</span>
+                    </div>
+                    <h3 class="fw-bold mb-1">{{ rt_count|default:0|intcomma }}</h3>
+                    <p class="text-muted mb-0 small">Rukun Tetangga</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="mini-metric">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-semibold">Penduduk Laki-laki</span>
+                        <span class="text-muted small">{{ total_laki|default:0|intcomma }}</span>
+                    </div>
+                    <div class="progress">
+                        {% widthratio total_laki total_penduduk_hidup 100 as laki_percent %}
+                        <div class="progress-bar" role="progressbar" style="width: {{ laki_percent }}%" aria-valuenow="{{ laki_percent }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="text-muted small mt-2">{{ laki_percent }}% dari total penduduk hidup</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="mini-metric">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-semibold">Penduduk Perempuan</span>
+                        <span class="text-muted small">{{ total_perempuan|default:0|intcomma }}</span>
+                    </div>
+                    <div class="progress">
+                        {% widthratio total_perempuan total_penduduk_hidup 100 as perempuan_percent %}
+                        <div class="progress-bar" role="progressbar" style="width: {{ perempuan_percent }}%" aria-valuenow="{{ perempuan_percent }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="text-muted small mt-2">{{ perempuan_percent }}% dari total penduduk hidup</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="mini-metric">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-semibold">Penduduk Meninggal</span>
+                        <span class="text-muted small">{{ total_penduduk_meninggal|default:0|intcomma }}</span>
+                    </div>
+                    <div class="progress">
+                        {% widthratio total_penduduk_meninggal total_penduduk 100 as meninggal_percent %}
+                        <div class="progress-bar" role="progressbar" style="width: {{ meninggal_percent }}%" aria-valuenow="{{ meninggal_percent }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="text-muted small mt-2">{{ meninggal_percent }}% dari total penduduk</div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- Berita -->
-<section class="py-5">
+<!-- Layanan Unggulan -->
+<section id="layanan" class="py-5">
     <div class="container">
-        <h2 class="text-center mb-4">Berita Terbaru</h2>
-        <div class="row">
-            {% for berita in berita_list %}
-            <div class="col-12 col-md-4 mb-4">
-                <div class="card h-100 shadow-sm">
-                    <img src="{{ berita.gambar.url }}" class="card-img-top" alt="{{ berita.judul }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ berita.judul }}</h5>
-                        <p class="card-text">{{ berita.konten|truncatewords:20 }}</p>
-                        <a href="#" class="btn btn-success btn-sm">Baca Selengkapnya</a>
+        <h2 class="text-center mb-4">Layanan Unggulan</h2>
+        <p class="text-center text-muted mb-5">Kemudahan akses layanan administrasi dan informasi desa secara daring.</p>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="service-card p-4">
+                    <div class="icon-wrapper mb-3">
+                        <span>📝</span>
+                    </div>
+                    <h5 class="fw-semibold">Antrian &amp; Administrasi</h5>
+                    <p class="text-muted small mb-4">Ajukan permohonan surat, kelola jadwal antrian, dan pantau status layanan secara realtime.</p>
+                    <a href="#" class="btn btn-sm btn-outline-success">Buka Layanan</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="service-card p-4">
+                    <div class="icon-wrapper mb-3">
+                        <span>📊</span>
+                    </div>
+                    <h5 class="fw-semibold">Data Kependudukan</h5>
+                    <p class="text-muted small mb-4">Lihat ringkasan data kependudukan desa, termasuk distribusi usia, pekerjaan, dan pendidikan.</p>
+                    <a href="#statistik" class="btn btn-sm btn-outline-success">Lihat Statistik</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="service-card p-4">
+                    <div class="icon-wrapper mb-3">
+                        <span>🗳</span>
+                    </div>
+                    <h5 class="fw-semibold">Partisipasi Warga</h5>
+                    <p class="text-muted small mb-4">Ikuti survey dan berikan masukan untuk pembangunan desa yang lebih baik.</p>
+                    <a href="{% url 'survey_home' %}" class="btn btn-sm btn-outline-success">Ikuti Survey</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Berita Investasi (Ticker) -->
+<section id="investasi" class="py-5 bg-white">
+    <div class="container">
+        <h2 class="text-center mb-4">Berita Investasi</h2>
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6">
+                <div class="investasi-ticker border rounded-3 overflow-hidden shadow-sm bg-light">
+                    <div class="investasi-ticker-inner">
+                        {% for post in investasi_list %}
+                        <div class="investasi-card d-flex align-items-center p-2 border-bottom bg-white">
+                            {% if post.gambar %}
+                            <div class="flex-shrink-0 me-2" style="width:56px;height:56px;overflow:hidden;border-radius:8px;">
+                                <img src="{{ post.gambar.url }}" alt="{{ post.judul }}" style="width:100%;height:100%;object-fit:cover;">
+                            </div>
+                            {% endif %}
+                            <div class="flex-grow-1">
+                                <div class="small text-muted mb-1">{{ post.tanggal_terbit }}</div>
+                                <div class="fw-semibold small mb-1">{{ post.judul }}</div>
+                                <div class="small text-truncate" style="max-width:100%;">{{ post.isi|striptags|truncatewords:12 }}</div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="p-3 text-center text-muted small">Belum ada berita investasi.</div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
     </div>
 </section>

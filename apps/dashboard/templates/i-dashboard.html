@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 
 <!DOCTYPE html>
 <html lang="id">
@@ -86,10 +87,10 @@
     <div class="container">
         <h2 class="mb-4">Statistik Desa</h2>
         <div class="row g-4">
-            <div class="col-6 col-md-3"><h3>4.200</h3><p>Penduduk</p></div>
-            <div class="col-6 col-md-3"><h3>1.250</h3><p>Keluarga</p></div>
-            <div class="col-6 col-md-3"><h3>9</h3><p>Dusun</p></div>
-            <div class="col-6 col-md-3"><h3>17</h3><p>RT</p></div>
+            <div class="col-6 col-md-3"><h3>{{ total_penduduk_hidup|default:0|intcomma }}</h3><p>Penduduk</p></div>
+            <div class="col-6 col-md-3"><h3>{{ total_kk|default:0|intcomma }}</h3><p>Keluarga</p></div>
+            <div class="col-6 col-md-3"><h3>{{ dusun_count|default:0|intcomma }}</h3><p>Dusun</p></div>
+            <div class="col-6 col-md-3"><h3>{{ rt_count|default:0|intcomma }}</h3><p>RT</p></div>
         </div>
     </div>
 </section>

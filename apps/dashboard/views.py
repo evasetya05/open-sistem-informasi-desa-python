@@ -29,6 +29,18 @@ def index(request):
     header = Header.objects.first()
     banners = Banner.objects.filter(is_active=True)
 
+    # statistik dasar kependudukan untuk semua pengguna
+    qs_hidup = Penduduk.objects.filter(status_hidup=True)
+    total_penduduk = Penduduk.objects.count()
+    total_penduduk_hidup = qs_hidup.count()
+    total_penduduk_meninggal = Penduduk.objects.filter(status_hidup=False).count()
+    total_kk = KartuKeluarga.objects.count()
+    # gunakan keterangan jenis kelamin: Lk = laki-laki, Pr = perempuan
+    total_laki = qs_hidup.filter(jenis_klmin_ket__iexact='Lk').count()
+    total_perempuan = qs_hidup.filter(jenis_klmin_ket__iexact='Pr').count()
+    dusun_count = qs_hidup.exclude(dusun__isnull=True).exclude(dusun__exact='').values('dusun').distinct().count()
+    rt_count = qs_hidup.exclude(no_rt__isnull=True).exclude(no_rt__exact='').values('no_rt').distinct().count()
+
     if request.user.is_authenticated:
         current_user = request.user
 
@@ -41,18 +53,9 @@ def index(request):
             resp = survey.responses.filter(respondent=current_user).first()
             user_responses[survey.id] = resp
 
-        total_penduduk = Penduduk.objects.count()
-        total_penduduk_hidup = Penduduk.objects.filter(status_hidup=True).count()
-        total_penduduk_meninggal = Penduduk.objects.filter(status_hidup=False).count()
-        total_kk = KartuKeluarga.objects.count()
-        # gunakan keterangan jenis kelamin: Lk = laki-laki, Pr = perempuan
-        total_laki = Penduduk.objects.filter(jenis_klmin_ket__iexact='Lk', status_hidup=True).count()
-        total_perempuan = Penduduk.objects.filter(jenis_klmin_ket__iexact='Pr', status_hidup=True).count()
-
         # distribusi umur per 5 tahun untuk penduduk hidup
         today = datetime.date.today()
         kelompok = {}
-        qs_hidup = Penduduk.objects.filter(status_hidup=True)
         for tgl in qs_hidup.values_list('tgl_lhr', flat=True):
             if not tgl:
                 continue
@@ -106,6 +109,8 @@ def index(request):
             'total_kk': total_kk,
             'total_laki': total_laki,
             'total_perempuan': total_perempuan,
+            'dusun_count': dusun_count,
+            'rt_count': rt_count,
             'age_labels': age_labels,
             'age_counts': age_counts,
             'edu_labels': edu_labels,
@@ -129,8 +134,20 @@ def index(request):
         else:
             return render(request, 'i-dashboard.html', context)
 
-    # user belum login
-    return render(request, 'i-dashboard.html', context={'header': header, 'banners': banners})
+    # user belum login: tampilkan i-dashboard dengan statistik dasar desa
+    public_context = {
+        'header': header,
+        'banners': banners,
+        'total_penduduk': total_penduduk,
+        'total_penduduk_hidup': total_penduduk_hidup,
+        'total_penduduk_meninggal': total_penduduk_meninggal,
+        'total_kk': total_kk,
+        'total_laki': total_laki,
+        'total_perempuan': total_perempuan,
+        'dusun_count': dusun_count,
+        'rt_count': rt_count,
+    }
+    return render(request, 'i-dashboard.html', context=public_context)
 
 
 def base(request):

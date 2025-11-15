@@ -14,5 +14,11 @@ class PostingInvestasi(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.judul)
+            original_slug = slugify(self.judul)
+            slug = original_slug
+            counter = 1
+            while PostingInvestasi.objects.filter(slug=slug).exists():
+                slug = f"{original_slug}-{counter}"
+                counter += 1
+            self.slug = slug
         super().save(*args, **kwargs)

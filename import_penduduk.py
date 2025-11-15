@@ -11,7 +11,7 @@ from django.conf import settings
 import django
 django.setup()
 
-from kependudukan.models import Penduduk, KartuKeluarga
+from apps.kependudukan.models import Penduduk, KartuKeluarga
 
 # === BACA FILE EXCEL ===
 df = pd.read_excel("penduduk.xlsx")

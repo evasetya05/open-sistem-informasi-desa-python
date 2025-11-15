@@ -23,13 +23,13 @@ INSTALLED_APPS = [
 
     'user',
     'account',
-    'dashboard',
-    'home',
-    'layanan',
-    'blog',
-    'kependudukan',
-    'survey',
-    'aset',
+    'apps.dashboard',
+    'apps.home',
+    'apps.layanan',
+    'apps.blog',
+    'apps.kependudukan',
+    'apps.survey',
+    'apps.aset',
 
 ]
 

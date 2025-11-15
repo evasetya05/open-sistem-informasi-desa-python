@@ -1,0 +1,91 @@
+{% load i18n %}
+
+<nav id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+        <h3>Menu Utama</h3>
+    </div>
+
+    <ul class="list-unstyled components">
+        {% for item in menu_items %}
+            {% if item.children %}
+                <li class="{% if item.is_active %}active{% endif %}">
+                    <a href="#{{ item.title|slugify }}" data-bs-toggle="collapse" 
+                       aria-expanded="{% if item.is_active %}true{% else %}false{% endif %}" 
+                       class="dropdown-toggle">
+                        <i class="fas {{ item.icon }} me-2"></i>
+                        {{ item.title }}
+                    </a>
+                    <ul class="collapse list-unstyled {% if item.is_active %}show{% endif %}" id="{{ item.title|slugify }}">
+                        {% for child in item.children %}
+                            <li class="{% if child.is_active %}active{% endif %}">
+                                <a href="{{ child.url }}">
+                                    {{ child.title }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% else %}
+                <li class="{% if item.is_active %}active{% endif %}">
+                    <a href="{{ item.url }}">
+                        <i class="fas {{ item.icon }} me-2"></i>
+                        {{ item.title }}
+                    </a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</nav>
+
+<style>
+.sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    background: #343a40;
+    color: #fff;
+    transition: all 0.3s;
+    min-height: 100vh;
+}
+
+.sidebar .sidebar-header {
+    padding: 20px;
+    background: #2c3136;
+}
+
+.sidebar ul.components {
+    padding: 20px 0;
+}
+
+.sidebar ul li a {
+    padding: 10px 20px;
+    font-size: 1.1em;
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.sidebar ul li a:hover {
+    background: #495057;
+    color: #fff;
+}
+
+.sidebar ul li.active > a {
+    background: #007bff;
+    color: #fff;
+}
+
+.sidebar ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #2c3136;
+}
+
+.sidebar .dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+</style>

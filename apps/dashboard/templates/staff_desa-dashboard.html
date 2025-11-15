@@ -85,10 +85,104 @@
     <!-- Main Content -->
     <div class="main-content p-4" style="flex-grow:1; margin-left:250px;">
         {% if user.is_authenticated %}
-            <div class="card shadow-sm border-0 p-4">
+            <div class="card shadow-sm border-0 p-4 mb-4">
                 <h3 class="fw-bold text-success">Welcome, {{ user.username }} 🎉</h3>
                 <p class="text-muted">Selamat datang di <strong>Desa Sumberoto Dashboard</strong></p>
             </div>
+
+            <!-- Ringkasan sederhana data kependudukan -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <div class="card text-white bg-primary shadow-sm">
+                        <div class="card-body">
+                            <h6 class="card-title mb-1">Total Penduduk</h6>
+                            <h3 class="fw-bold mb-0">{{ total_penduduk }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-success shadow-sm">
+                        <div class="card-body">
+                            <h6 class="card-title mb-1">Penduduk Hidup</h6>
+                            <h3 class="fw-bold mb-0">{{ total_penduduk_hidup }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-info shadow-sm">
+                        <div class="card-body">
+                            <h6 class="card-title mb-1">Laki-laki</h6>
+                            <h3 class="fw-bold mb-0">{{ total_laki }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-danger shadow-sm">
+                        <div class="card-body">
+                            <h6 class="card-title mb-1">Perempuan</h6>
+                            <h3 class="fw-bold mb-0">{{ total_perempuan }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <div class="card text-white bg-secondary shadow-sm">
+                        <div class="card-body">
+                            <h6 class="card-title mb-1">Total KK</h6>
+                            <h3 class="fw-bold mb-0">{{ total_kk }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diagram batang distribusi umur -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Distribusi Umur Penduduk (Hidup)</h5>
+                    <canvas id="ageBarChart" height="120"></canvas>
+                </div>
+            </div>
+
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
+                (function() {
+                    const ctx = document.getElementById('ageBarChart');
+                    if (!ctx) return;
+
+                    const labels = {{ age_labels|safe }};
+                    const data = {{ age_counts|safe }};
+
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Jumlah Penduduk',
+                                data: data,
+                                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            plugins: {
+                                legend: { display: false }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        precision: 0
+                                    }
+                                }
+                            }
+                        }
+                    });
+                })();
+            </script>
+
         {% else %}
             <div class="alert alert-warning shadow-sm">
                 Anda belum login. Silakan <a href="{% url 'user:login' %}" class="alert-link">Login</a>

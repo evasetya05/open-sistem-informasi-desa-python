@@ -52,7 +52,8 @@ def index(request):
         # distribusi umur per 5 tahun untuk penduduk hidup
         today = datetime.date.today()
         kelompok = {}
-        for tgl in Penduduk.objects.filter(status_hidup=True).values_list('tgl_lhr', flat=True):
+        qs_hidup = Penduduk.objects.filter(status_hidup=True)
+        for tgl in qs_hidup.values_list('tgl_lhr', flat=True):
             if not tgl:
                 continue
             umur = today.year - tgl.year - ((today.month, today.day) < (tgl.month, tgl.day))
@@ -75,6 +76,24 @@ def index(request):
         age_labels = sorted(kelompok.keys(), key=sort_key)
         age_counts = [kelompok[k] for k in age_labels]
 
+        # distribusi pendidikan, agama, pekerjaan untuk penduduk hidup
+        def build_dist(queryset, field):
+            counts = {}
+            for value in queryset.values_list(field, flat=True):
+                if not value:
+                    continue
+                value = value.strip()
+                if not value:
+                    continue
+                counts[value] = counts.get(value, 0) + 1
+            labels = sorted(counts.keys())
+            data = [counts[k] for k in labels]
+            return labels, data
+
+        edu_labels, edu_counts = build_dist(qs_hidup, 'pendidikan_akh_ket')
+        agama_labels, agama_counts = build_dist(qs_hidup, 'agama_ket')
+        kerja_labels, kerja_counts = build_dist(qs_hidup, 'jenis_pkrjn_ket')
+
         context = {
             'header': header,
             'banners': banners,
@@ -89,6 +108,12 @@ def index(request):
             'total_perempuan': total_perempuan,
             'age_labels': age_labels,
             'age_counts': age_counts,
+            'edu_labels': edu_labels,
+            'edu_counts': edu_counts,
+            'agama_labels': agama_labels,
+            'agama_counts': agama_counts,
+            'kerja_labels': kerja_labels,
+            'kerja_counts': kerja_counts,
         }
 
         if current_user.user_position == 'KD':
